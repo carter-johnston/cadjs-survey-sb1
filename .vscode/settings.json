@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/8a0d0198-672a-42b7-bccd-395def3ebbcd/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/cadjs-survey-sb1",
+    "appService.deploySubpath": "."
+}
