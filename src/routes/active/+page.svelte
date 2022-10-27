@@ -1,1 +1,1 @@
-<h1>Active Surveys</h1>
+<h1 class="header">Active Surveys</h1>
