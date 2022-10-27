@@ -16,14 +16,15 @@
     <hr />
     <div class="list-group">
         {#each componentList as component}
-        <a href="" class="list-group-item list-group-item-action active" aria-current="true">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">Heading</h5>
-                  <small>ADD: useful tip on how to edit question.</small>
-                </div>
+            <div>
+              <h5>Heading</h5>
+              <small>ADD: useful tip on how to edit question.</small>
+            </div>
         {/each}
+  
+        
     </div>
-    <button class="btn btn-primary" on:click={() => {
+    <button class="btn" on:click={() => {
         componentList.push(newRow);
         componentList = componentList;
        
