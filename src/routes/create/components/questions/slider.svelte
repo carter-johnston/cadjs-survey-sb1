@@ -16,6 +16,7 @@
 
 <div class="slider">
 	<Slider on:change={(event) => value = event.detail[1]} value={[0, 1]} single />
+	<input type="number" value="{value}" hidden>
 </div>
 
 <style>

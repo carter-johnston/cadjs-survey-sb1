@@ -1,15 +1,21 @@
-<nav>
-    <a href="/active">Active Surveys</a>
-    |
-    <a href="/create">Create Survey</a>
-    |
-    <a href="/analysis">Analysis</a>
-    |
-    <a href="/survey">Survey TEMP</a>
+<nav class="nav nav-tabs justify-content-center">
+    <li class="nav-item">
+        <a class="nav-link" href="/active">Active Surveys</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/create">Create Survey</a>
+    </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="/analysis">Analysis</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="/survey">Survey TEMP</a>
+    </li>
 </nav>
 
-<slot></slot>
+<slot />
 
 <footer>
     <p id="footer">Created by the CADJS team.</p>
