@@ -1,10 +1,13 @@
 <script>
+	export let questionNumber;
+
 	let columns = [];
 	let rows = [];
-	
 	let newRow = "row";
 	let newColumn = "Col";
 </script>
+
+<h2>Q{ questionNumber }.</h2>
 
 <table>
 	<tr>
