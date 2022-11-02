@@ -26,12 +26,12 @@
 	{/each}
 </table>
 
-<button on:click={() => {
+<button class="btn btn-secondary" on:click={() => {
 	rows.push(newRow);
 	rows = rows;
 }}>Add Row</button>
 
-<button on:click={() => {
+<button class="btn btn-secondary" on:click={() => {
 	columns.push(newColumn);
 	columns = columns;
 }}>Add Column</button>

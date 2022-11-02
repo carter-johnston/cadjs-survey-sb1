@@ -3,23 +3,22 @@
     import Likert from "./components/questions/Likert.svelte";
     import Selection from "./components/questions/Selection.svelte";
     import Text from "./components/questions/Text.svelte";
-    import Slide from "./components/questions/Slide.svelte";
+    //import Slide from "./components/questions/Slide.svelte";
     import Comment from "./components/questions/Comment.svelte";
 
-    const compOptions = [
-		{ value:0, component: Likert },
-		{ value:1, component: Slide },
-		{ value:2, component: Text  },
-        { value:3, component: Selection  },
-        { value:4, component: Dropdown  },
-        { value:5, component: Comment  }
+    const componentOptions = [
+		{ title: "Likert", component: Likert },
+		//{ value:1, component: Slide }, //TODO: fix slider
+		{ title: "Text", component: Text  },
+        { title: "Selection", component: Selection  },
+        { title: "Dropdown", component: Dropdown  },
+        { title: "Comment", component: Comment  },
 	];
-
     const currentDate = new Date();
 
     let componentList = [];
 
-    let selected = compOptions[0];
+    let selected = componentOptions[0];
 
 </script>
 
@@ -34,22 +33,25 @@
 <div class="list-group">
     {#each componentList as item, index}
         <div class="list-group-item list-group-item-action">
-            <svelte:component this={selected.component} questionNumber={index+1} />
+            <svelte:component this={item} questionNumber={index+1} />
         </div>
     {:else}
         <p>No questions added</p>
     {/each}
 </div>
 
-<button class="btn btn-secondary" on:click={() => {
-    componentList.push("survey");
+<button class="btn btn-outline-secondary" on:click={() => {
+    componentList.push(selected.component);
     componentList = componentList; 
 }}>Add Question</button>
 
-
-
-<select bind:value={selected}>
-	{#each compOptions as option}
-		<option value={option}>1</option>
+<select class="btn btn-secondary" bind:value={selected} on:click={() => {}}>
+	{#each componentOptions as option}
+		<option value={option}>{option.title}</option>
 	{/each}
 </select>
+<hr><br>
+<div>
+    <button class="btn btn-primary">Submit</button>
+    <button class="btn btn-secondary">Reset</button>
+</div>
