@@ -16,6 +16,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"svelte-slider": "^1.0.1",
 		"sveltestrap": "^5.9.0"
 	}
 }
