@@ -77,7 +77,7 @@
   <div class="btnSubmit">
     <div class="d-grid gap-2 d-md-block">
       <div class="d-grid gap-2 d-md-block">
-        <a href="/surveySuccess"
+        <a href="/survey/surveySuccess"
           ><button class="btn btn-primary" type="button">Submit</button></a
         >
       </div>
