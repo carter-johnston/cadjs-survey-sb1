@@ -1,0 +1,15 @@
+{
+  "$schema": "https://aka.ms/azure/static-web-apps-cli/schema",
+  "configurations": {
+    "cadjs-survey-sb1": {
+      "appLocation": "./",
+      "apiLocation": "./build/server",
+      "outputLocation": "./build/static",
+      "appBuildCommand": "npm run build",
+      "run": "npm run dev",
+      "appDevserverUrl": "http://localhost:8080",
+      "appName": "cadjs-survey-sb1",
+      "resourceGroupName": "cadjs-survey-sb1-rg"
+    }
+  }
+}
