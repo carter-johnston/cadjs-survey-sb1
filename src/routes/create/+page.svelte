@@ -3,12 +3,10 @@
     import Likert from "./components/questions/Likert.svelte";
     import Selection from "./components/questions/Selection.svelte";
     import Text from "./components/questions/Text.svelte";
-    //import Slide from "./components/questions/Slide.svelte";
     import Comment from "./components/questions/Comment.svelte";
 
     const componentOptions = [
 		{ title: "Likert", component: Likert },
-		//{ value:1, component: Slide }, //TODO: fix slider
 		{ title: "Text", component: Text  },
         { title: "Selection", component: Selection  },
         { title: "Dropdown", component: Dropdown  },
