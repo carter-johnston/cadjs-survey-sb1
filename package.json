@@ -18,8 +18,10 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"dotenv": "^16.0.3",
 		"html2pdf.js": "^0.10.1",
 		"jspdf": "^2.5.1",
+		"mongodb": "^4.12.1",
 		"sveltestrap": "^5.9.0"
 	}
 }
