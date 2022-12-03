@@ -16,6 +16,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"dotenv": "^16.0.3",
 		"svelte-slider": "^1.0.1",
 		"sveltestrap": "^5.9.0"
 	}
