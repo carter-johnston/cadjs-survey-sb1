@@ -16,6 +16,8 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"dotenv": "^16.0.3",
+		"mongodb": "^4.12.1",
 		"sveltestrap": "^5.9.0"
 	}
 }
