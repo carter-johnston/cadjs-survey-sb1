@@ -1,11 +1,15 @@
 <script>
     //data is used when page is initialized i.e. ("return View(<model data>);")
-    /** @type {import('./$types').PageData} */  
-    export let data;
+    // /** @type {import('./$types').PageData} */  
+    // export let data;
 
     /** @type {import('./$types').ActionData} */  
     export let form;
 
+    let data = '';
+    if(form?.success2) {
+        data = form?.result;
+    }
 </script>
 
 <form method="POST" action="?/testPost">
@@ -21,16 +25,12 @@
 {#if form?.success1}
   <!-- this message is ephemeral; it exists because the page was rendered in      
     response to a form submission. it will vanish if the user reloads --> 
-    <!-- <p>MongoDb insert was successful</p>
-    <p>Server responded with {form?.response}</p> -->
+    <p>MongoDb insert was successful</p>
+    <p>Server responded with {form?.response}</p>
 
 {/if}
 
 {#if form?.success2}
 
-    <!-- {#each form?.results as item}
-        <p>{ item }</p>
-    {/each}   -->
-    <!-- <p>{ form?.result }</p> -->
-
+<p>{form?.result}</p>
 {/if}

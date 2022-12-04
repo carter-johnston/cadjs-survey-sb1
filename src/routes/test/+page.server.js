@@ -17,15 +17,13 @@ export const actions = {
         const collection = db.collection('test_collection');
 
         const data = await request.formData();
-        console.log(data);
         const message = data.get('message');
-        const stringifiedMessage = JSON.stringify(message);
-        const parsedRequest = JSON.parse(stringifiedMessage); 
-
-        const mongoResponse = await collection.insertOne(parsedRequest);
+        const parsedRequest = JSON.parse(message); 
+        const stringifiedMessage = JSON.stringify(parsedRequest);
+        const mongoResponse = await collection.insertOne(stringifiedMessage);
 
         
-        return { success1: true, response: JSON.parse(mongoResponse) };
+        return { success1: true, response: mongoResponse };
     },
 
     testPost2: async ({ request }) => {
@@ -36,11 +34,10 @@ export const actions = {
 
         //select all from collection as a list > stringify each item of the list.
         //const dbResult = await collection.find().map(x => JSON.stringify(x));
-        let dbResult = await collection.find().toArray();
-        
-        console.log(JSON.stringify(dbResult));
-        
+        let dbResult = await collection.find()
+        let spagettiString = JSON.stringify(dbResult);
+        let parsedResult = JSON.parse(spagettiString);        
 
-        return { success2: true }
+        return { success2: true, result: parsedResult}
     },
 };
