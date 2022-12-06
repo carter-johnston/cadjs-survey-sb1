@@ -1,5 +1,7 @@
 <script>
 	export let questionNumber;
+	export let handleDelete;
+
 	let columns = [];
 	let rows = [];
 
@@ -7,7 +9,10 @@
 	const defaultColumn = "new label.";
 </script>
 
-<h2>Q{questionNumber}.</h2>
+<span>
+	<input type="checkbox" on:click={handleDelete}>
+	<h2>Q{questionNumber}.</h2>
+</span>
 
 <table>
 	<tr>

@@ -1,9 +1,14 @@
 <script>
-    import Dropdown from "./components/questions/Dropdown.svelte";
-    import Likert from "./components/questions/Likert.svelte";
-    import Selection from "./components/questions/Selection.svelte";
-    import Text from "./components/questions/Text.svelte";
-    import Comment from "./components/questions/Comment.svelte";
+
+    // import { Dropdown, Likert, Selection, Text, Comment  } from '../../components'; failed to load module for ssr
+    //TODO barrel up imports
+    import Dropdown from "../../components/questions/Dropdown.svelte";
+    import Likert from "../../components/questions/Likert.svelte";
+    import Selection from "../../components/questions/Selection.svelte";
+    import Text from "../../components/questions/Text.svelte";
+    import Comment from "../../components/questions/Comment.svelte";
+    import { DateTime } from 'luxon';
+    import Error from './+error.svelte';
 
     const componentOptions = [
 		{ title: "Likert", component: Likert },
@@ -11,39 +16,61 @@
         { title: "Selection", component: Selection  },
         { title: "Dropdown", component: Dropdown  },
         { title: "Comment", component: Comment  },
+        //FIXME fix slider 
+        //{ title: 'Slider', component: Slider }, 
+
 	];
-    const currentDate = new Date();
-
-    let componentList = [];
-
+    const dateCreated = DateTime.now();
+    let questions = [];
     let selected = componentOptions[0];
+
+    $:(console.log(questions))
+
+    function removeQuestion(index) {
+        console.log(`${index} flagged for deletion`);
+        questions.splice(index, 1)//FIXME pop only works for deleting tail of the list for some reason. additional attention needed.
+        questions = questions;
+    };
+
+    function handleRearrange(startPosition, endPosition) {
+        //TODO hand drag and drop rearrange questions list.
+    }
 
 </script>
 
-<h1>Create Survey</h1>
+<h1>Create a Survey</h1>
 
-<label for="surveyName">Survey name:</label>
+<label for="surveyName">Title:</label>
 <input name="surveyName" type="text" /><br />
 
-<label for="createDate">Creation date:</label>
-<input name="createDate" type="text" placeholder={currentDate} readonly /><br />
+<label for="surveyDesc">Description:</label>
+<input name="surveyDesc" type="text" /><br />
+
+<label for="createDate">Created:</label>
+<input name="createDate" type="text" placeholder={dateCreated} readonly /><br />
 
 <div class="list-group">
-    {#each componentList as item, index}
+    {#each questions as question, index}
         <div class="list-group-item list-group-item-action">
-            <svelte:component this={item} questionNumber={index+1} />
+
+            <!-- TODO add handle deletion to all components. -->
+            <svelte:component   this={question} 
+                                questionNumber={index+1} 
+                                handleDelete={() => {removeQuestion(index)}} /> 
+
         </div>
     {:else}
-        <p>No questions added</p>
+        <p>To add a question, select the desired type from the dropdown menu and click "Add Question"</p>
     {/each}
 </div>
 
+<!-- On click will push selected component from dropdown to the list of questions -->
 <button class="btn btn-outline-secondary" on:click={() => {
-    componentList.push(selected.component);
-    componentList = componentList; 
+    questions.push(selected.component);
+    questions = questions; 
 }}>Add Question</button>
 
-<select class="btn btn-secondary" bind:value={selected} on:click={() => {}}>
+<select class="btn btn-secondary" bind:value={selected}>
 	{#each componentOptions as option}
 		<option value={option}>{option.title}</option>
 	{/each}
