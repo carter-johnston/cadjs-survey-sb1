@@ -8,7 +8,6 @@
     import Text from "../../components/questions/Text.svelte";
     import Comment from "../../components/questions/Comment.svelte";
     import { DateTime } from 'luxon';
-    import Error from './+error.svelte';
 
     const componentOptions = [
 		{ title: "Likert", component: Likert },
@@ -18,13 +17,11 @@
         { title: "Comment", component: Comment  },
         //FIXME fix slider 
         //{ title: 'Slider', component: Slider }, 
-
 	];
+
     const dateCreated = DateTime.now();
     let questions = [];
     let selected = componentOptions[0];
-
-    $:(console.log(questions))
 
     function removeQuestion(index) {
         console.log(`${index} flagged for deletion`);
@@ -40,43 +37,49 @@
 
 <h1>Create a Survey</h1>
 
-<label for="surveyName">Title:</label>
-<input name="surveyName" type="text" /><br />
+<form method="POST" action="?/insertSurvey">
+    
+    <label for="surveyName">Title:</label>
+    <input name="surveyName" type="text" /><br />
+    
+    <label for="surveyDesc">Description:</label>
+    <input name="surveyDesc" type="text" /><br />
+    
+    <label for="createDate">Created:</label>
+    <input name="createDate" type="text" placeholder={dateCreated} readonly /><br />
 
-<label for="surveyDesc">Description:</label>
-<input name="surveyDesc" type="text" /><br />
+    <div class="list-group">
+        {#each questions as question, index}
+            <div class="list-group-item list-group-item-action">
+    
+                <!-- TODO add handle deletion to all components. -->
+                <svelte:component   this={question} 
+                                    questionNumber={index+1} 
+                                    handleDelete={() => {removeQuestion(index)}} /> 
+    
+            </div>
+        {:else}
+            <p>To add a question, select the desired type from the dropdown menu and click "Add Question"</p>
+        {/each}
+    </div>
 
-<label for="createDate">Created:</label>
-<input name="createDate" type="text" placeholder={dateCreated} readonly /><br />
+    <!-- On click will push selected component from dropdown to the list of questions -->
+    <button class="btn btn-outline-secondary" on:click={() => {
+        questions.push(selected.component);
+        questions = questions; 
+    }}>Add Question</button>
 
-<div class="list-group">
-    {#each questions as question, index}
-        <div class="list-group-item list-group-item-action">
 
-            <!-- TODO add handle deletion to all components. -->
-            <svelte:component   this={question} 
-                                questionNumber={index+1} 
-                                handleDelete={() => {removeQuestion(index)}} /> 
+    <select class="btn btn-secondary" bind:value={selected}>
+        {#each componentOptions as option}
+            <option value={option}>{option.title}</option>
+        {/each}
+    </select>
+    <hr><br>
+    <div>
+        <button class="btn btn-primary">Submit</button>
+        <button class="btn btn-secondary">Reset</button>
+    </div>
 
-        </div>
-    {:else}
-        <p>To add a question, select the desired type from the dropdown menu and click "Add Question"</p>
-    {/each}
-</div>
+</form>
 
-<!-- On click will push selected component from dropdown to the list of questions -->
-<button class="btn btn-outline-secondary" on:click={() => {
-    questions.push(selected.component);
-    questions = questions; 
-}}>Add Question</button>
-
-<select class="btn btn-secondary" bind:value={selected}>
-	{#each componentOptions as option}
-		<option value={option}>{option.title}</option>
-	{/each}
-</select>
-<hr><br>
-<div>
-    <button class="btn btn-primary">Submit</button>
-    <button class="btn btn-secondary">Reset</button>
-</div>
