@@ -1,9 +1,7 @@
 <nav class="nav nav-tabs justify-content-center">
+    
     <li class="nav-item">
         <a class="nav-link" href="/active">Active Surveys</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/create">Create Survey</a>
     </li>
 
     <li class="nav-item">
@@ -11,7 +9,15 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="/survey">Survey TEMP</a>
+        <a class="nav-link" href="/create">CREATE</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="/survey">SURVEY TEMP</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="/test">TEST</a>
     </li>
 </nav>
 

@@ -1,4 +1,7 @@
 <script>
+    import { debug } from 'svelte/internal';
+
+
     //data is used when page is initialized i.e. ("return View(<model data>);")
     // /** @type {import('./$types').PageData} */  
     // export let data;
@@ -6,31 +9,29 @@
     /** @type {import('./$types').ActionData} */  
     export let form;
 
-    let data = '';
-    if(form?.success2) {
-        data = form?.result;
-    }
 </script>
-
 <form method="POST" action="?/testPost">
     <div>
-        <input name="message" type="text">
+        <label for="title">Enter title:</label>
+        <input name="title" type="text">
     </div>
     <div>
-        <button>Send Request 1</button>
-        <button formaction="?/testPost2">Send Request 2</button>
+        <button>Insert Into</button>
+        <button formaction="?/testPost2">Retrieve List</button>
     </div>
 </form>
 
-{#if form?.success1}
+{#if form?.success}
   <!-- this message is ephemeral; it exists because the page was rendered in      
     response to a form submission. it will vanish if the user reloads --> 
-    <p>MongoDb insert was successful</p>
-    <p>Server responded with {form?.response}</p>
+    <p>{form?.message}</p>
+    <p>Atlas responded with {form?.ack}</p>
 
 {/if}
 
 {#if form?.success2}
-
-<p>{form?.result}</p>
+    {#each form?.surveys as survey}
+        <p>{survey.title}</p>
+    {/each}
 {/if}
+
