@@ -1,9 +1,13 @@
 <script>
-    import Dropdown from "./components/questions/Dropdown.svelte";
-    import Likert from "./components/questions/Likert.svelte";
-    import Selection from "./components/questions/Selection.svelte";
-    import Text from "./components/questions/Text.svelte";
-    import Comment from "./components/questions/Comment.svelte";
+
+    // import { Dropdown, Likert, Selection, Text, Comment  } from '../../components'; failed to load module for ssr
+    //TODO barrel up imports
+    import Dropdown from "../../components/questions/Dropdown.svelte";
+    import Likert from "../../components/questions/Likert.svelte";
+    import Selection from "../../components/questions/Selection.svelte";
+    import Text from "../../components/questions/Text.svelte";
+    import Comment from "../../components/questions/Comment.svelte";
+    import { DateTime } from 'luxon';
 
     const componentOptions = [
 		{ title: "Likert", component: Likert },
@@ -12,7 +16,7 @@
         { title: "Dropdown", component: Dropdown  },
         { title: "Comment", component: Comment  },
 	];
-    const currentDate = new Date();
+    const currentDate = DateTime.now();
 
     let componentList = [];
 
