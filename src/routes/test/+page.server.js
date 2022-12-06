@@ -1,5 +1,5 @@
 import clientPromise from '../../db/mongodb_client';
-import { surveys } from '../../db/models/surveys';
+import { surveys } from '../../db/collections/surveys';
  
 // /** @type {import('./$types').PageServerLoad} */
 // export async function load({  }) {
@@ -23,7 +23,7 @@ export const actions = {
         //insert one object into db. async needed or else you'll get back "<pending>"
         const mongoResponse = await surveys.insertOne({
             title,
-            author: "test user",
+            author: "test-user",
         });
         console.log(mongoResponse);
 

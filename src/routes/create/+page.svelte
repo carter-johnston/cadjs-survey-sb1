@@ -1,24 +1,55 @@
 <script>
+    import Dropdown from "./components/questions/Dropdown.svelte";
+    import Likert from "./components/questions/Likert.svelte";
+    import Selection from "./components/questions/Selection.svelte";
+    import Text from "./components/questions/Text.svelte";
+    import Comment from "./components/questions/Comment.svelte";
+
+    const componentOptions = [
+		{ title: "Likert", component: Likert },
+		{ title: "Text", component: Text  },
+        { title: "Selection", component: Selection  },
+        { title: "Dropdown", component: Dropdown  },
+        { title: "Comment", component: Comment  },
+	];
     const currentDate = new Date();
+
     let componentList = [];
-    let newRow = "likert";
+
+    let selected = componentOptions[0];
+
 </script>
 
-<h1>Create New Survey</h1>
-<form action="">
-    <label for="surveyName">Survey name:</label>
-    <input type="text" /><br />
+<h1>Create Survey</h1>
 
-    <label for="createDate">Creation date:</label>
-    <input type="text" placeholder={currentDate} readonly /><br />
+<label for="surveyName">Survey name:</label>
+<input name="surveyName" type="text" /><br />
 
-    
-    <button class="btn" on:click={() => {}}>Add Question</button>
+<label for="createDate">Creation date:</label>
+<input name="createDate" type="text" placeholder={currentDate} readonly /><br />
 
-    <select class="" id="questionSelector">
-        <option value="likert">Likert</option>
-        <option value="slider">Slider</option>
-        <option value="text">Textbox</option>
-        <option value="dropdown">Dropdown</option>
-    </select>
-</form>
+<div class="list-group">
+    {#each componentList as item, index}
+        <div class="list-group-item list-group-item-action">
+            <svelte:component this={item} questionNumber={index+1} />
+        </div>
+    {:else}
+        <p>No questions added</p>
+    {/each}
+</div>
+
+<button class="btn btn-outline-secondary" on:click={() => {
+    componentList.push(selected.component);
+    componentList = componentList; 
+}}>Add Question</button>
+
+<select class="btn btn-secondary" bind:value={selected} on:click={() => {}}>
+	{#each componentOptions as option}
+		<option value={option}>{option.title}</option>
+	{/each}
+</select>
+<hr><br>
+<div>
+    <button class="btn btn-primary">Submit</button>
+    <button class="btn btn-secondary">Reset</button>
+</div>
