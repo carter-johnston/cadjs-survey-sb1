@@ -38,21 +38,23 @@
 <h1>Create a Survey</h1>
 
 <form method="POST" action="?/insertSurvey">
-    
-    <label for="surveyName">Title:</label>
-    <input name="surveyName" type="text" /><br />
+
+    <label for="surveyTitle">Title:</label>
+    <input name="surveyTitle" type="text" /><br />
     
     <label for="surveyDesc">Description:</label>
     <input name="surveyDesc" type="text" /><br />
     
-    <label for="createDate">Created:</label>
-    <input name="createDate" type="text" placeholder={dateCreated} readonly /><br />
+    <label for="dateCreated">Created:</label>
+    <input name="dateCreated" type="text" placeholder={dateCreated} readonly><br />
+
+    <input type="text" name="questions" value={questions} hidden>
 
     <div class="list-group">
         {#each questions as question, index}
             <div class="list-group-item list-group-item-action">
     
-                <!-- TODO add handle deletion to all components. -->
+                <!-- TODO add handle deletion to all components. https://svelte.dev/tutorial/keyed-each-blocks found it -->
                 <svelte:component   this={question} 
                                     questionNumber={index+1} 
                                     handleDelete={() => {removeQuestion(index)}} /> 
@@ -64,7 +66,7 @@
     </div>
 
     <!-- On click will push selected component from dropdown to the list of questions -->
-    <button class="btn btn-outline-secondary" on:click={() => {
+    <button type="button" class="btn btn-outline-secondary" on:click={() => {
         questions.push(selected.component);
         questions = questions; 
     }}>Add Question</button>

@@ -1,4 +1,4 @@
-import { test_collection } from '../../db/collections/surveys';
+import { test_collection } from '../../db/collections/test_collection';
  
 // /** @type {import('./$types').PageServerLoad} */
 // export async function load({  }) {
@@ -31,7 +31,7 @@ export const actions = {
             success: true,
             message: `Server received ${title} and inserted it into the db collection.`, 
             ack: JSON.stringify(mongoResponse),
-            }
+        }
     },
 
     testPost2: async ({ request }) => {
