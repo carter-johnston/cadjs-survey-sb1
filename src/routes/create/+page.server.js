@@ -16,9 +16,9 @@ export const actions = {
         const data = await request.formData();
 
         const surveyTitle = data.get('surveyTitle');
-        const surveyDesc = data.formData.get('surveyDesc');
-        const dateCreated = data.formDate.get('dateCreated');
-        const questions = data.formDate.get('questions');
+        const surveyDesc = data.get('surveyDesc');
+        const dateCreated = data.get('dateCreated');
+        const questions = data.get('questions');
        
         //insertOne into db
         const dbResponse = await surveys.insertOne({
