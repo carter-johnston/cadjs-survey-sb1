@@ -1,12 +1,12 @@
 import { surveys } from '../../db/collections/surveys';
 
 
-/** @type {import('./$types').PageLoad} */
-export async function load() {
-    //if post successful, redirect to Active-Surveys page. 
+// /** @type {import('./$types').PageLoad} */
+// export async function load() {
+//     //if post successful, redirect to Active-Surveys page. 
     
-    //get questionbank.
-}
+//     //get questionbank.
+// }
 
 /** @type {import('./$types').Actions} */
 export const actions = {

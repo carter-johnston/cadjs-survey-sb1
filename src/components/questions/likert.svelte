@@ -1,20 +1,32 @@
 <script>
-	export let questionNumber;
-	export let handleDelete;
+	import { questionbank } from '../../stores/create-store';
 
+	export let questionNo;
+	export let id;
+	
+	const defaultRow = "new question.";
+	const defaultColumn = "new label.";
 	let columns = [];
 	let rows = [];
 
-	const defaultRow = "new question.";
-	const defaultColumn = "new label.";
+	function updateQuestionBank() {
+		console.log('updated');
+		questionbank[id] = {
+			questionNo,
+			columns,
+			rows,
+		}
+	};
+
+	$: columns, updateQuestionBank();
+	$: rows, updateQuestionBank();
+
 </script>
 
-<span>
-	<input type="checkbox" on:click={handleDelete}>
-	<h2>Q{questionNumber}.</h2>
-</span>
+<h2>Q{questionNo}.</h2>
 
 <table>
+
 	<tr>
 		<th>Question</th>
 		{#each columns as column}
@@ -29,12 +41,17 @@
 			{/each}
 		</tr>
 	{/each}
+
 </table>
 
-<button class="btn btn-secondary" on:click={() => {
-	rows = [...rows, defaultRow ];
-}}>Add Row</button>
+<button type="button" class="btn btn-secondary" 
+	on:click={() => {
+		rows = [...rows, defaultRow ];
+	}}>Add Row
+</button>
 
-<button class="btn btn-secondary" on:click={() => {
-	columns = [...columns, defaultColumn ];
-}}>Add Column</button>
+<button type="button" class="btn btn-secondary" 
+	on:click={() => {
+		columns = [...columns, defaultColumn ];
+	}}>Add Column
+</button>

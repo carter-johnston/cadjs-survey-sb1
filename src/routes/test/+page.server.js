@@ -18,7 +18,6 @@ export const actions = {
         //get string values of your form data
         const title = data.get('title');
 
-
         //insert one object into db. async needed or else you'll get back "<pending>"
         const mongoResponse = await test_collection.insertOne({
             title,
