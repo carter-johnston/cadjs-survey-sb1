@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <h1>Survey #1</h1>
 <br />
 <form method="POST" action="/surveySuccess">
@@ -159,3 +160,6 @@
     margin-bottom: 35px;
   }
 </style>
+=======
+<h1>Survey Dummy Page</h1>
+>>>>>>> 960ed84e057ce1644fde7648e87ff23ee4c64971

@@ -1,14 +1,11 @@
 <script>
-    import { debug } from 'svelte/internal';
-
-
     //data is used when page is initialized i.e. ("return View(<model data>);")
     // /** @type {import('./$types').PageData} */  
     // export let data;
 
     /** @type {import('./$types').ActionData} */  
     export let form;
-
+    
 </script>
 <form method="POST" action="?/testPost">
     <div>
