@@ -2,7 +2,6 @@
 
     // import { Dropdown, Likert, Selection, Text, Comment  } from '../../components'; failed to load module for ssr
     //TODO barrel up imports
-    import Dropdown from "../../components/questions/Dropdown.svelte";
     import Likert from "../../components/questions/Likert.svelte";
     import Selection from "../../components/questions/Selection.svelte";
     import Text from "../../components/questions/Text.svelte";
