@@ -2,8 +2,8 @@
     // import Selection from "./components/questions/Selection.svelte";
     // import Comment from "./questions/Comment.svelte";
     // import Dropdown from "./components/questions/Dropdown.svelte";
-    import Likert from "./questions/Likert.svelte";
-    import Text from "./questions/Text.svelte";
+    import Likert from './questions/Likert.svelte';
+    import Text from './questions/Text.svelte';
 
     import { DateTime } from 'luxon';
     import { v4 as uuidv4 } from 'uuid';
