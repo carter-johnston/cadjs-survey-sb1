@@ -17,6 +17,7 @@
 	"type": "module",
 	"dependencies": {
 		"dotenv": "^16.0.3",
+		"fontawesome": "^5.6.3",
 		"luxon": "^3.1.1",
 		"mongodb": "^4.12.1",
 		"sveltestrap": "^5.9.0",

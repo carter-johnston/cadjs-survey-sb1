@@ -10,7 +10,7 @@ import { surveys } from '../../db/collections/surveys';
 
 /** @type {import('./$types').Actions} */
 export const actions = {
-    insertSurvey: async ({ request }) => {
+    submitSurvey: async ({ request }) => {
 
         //get and format survey object
         const data = await request.formData();
@@ -18,23 +18,20 @@ export const actions = {
         const surveyTitle = data.get('surveyTitle');
         const surveyDesc = data.get('surveyDesc');
         const dateCreated = data.get('dateCreated');
-        const questions = data.get('questions');
+        // const questions = data.get('questions');
        
-        //insertOne into db
-        const dbResponse = await surveys.insertOne({
+        const ack = await surveys.insertOne({
             surveyTitle,
             surveyDesc,
             dateCreated,
             author: "test-user",
-            questions,
+            // questions,
         });
-
-        console.log(dbResponse);
 
         //return ack
         return {
             success: true,
-            ack: JSON.stringify(dbResponse), 
+            message: JSON.stringify(ack),
         }
     },
 };

@@ -1,29 +1,18 @@
 <script>
-	import { questionbank } from '../../stores/create-store';
-
 	export let questionNo;
-	export let id;
+	//export let removeQuestion; //callback to remove component from list
+	//export let questionBank; //callback to update question bank
 	
 	const defaultRow = "new question.";
 	const defaultColumn = "new label.";
 	let columns = [];
 	let rows = [];
 
-	function updateQuestionBank() {
-		console.log('updated');
-		questionbank[id] = {
-			questionNo,
-			columns,
-			rows,
-		}
-	};
-
-	$: columns, updateQuestionBank();
-	$: rows, updateQuestionBank();
-
 </script>
-
-<h2>Q{questionNo}.</h2>
+	<span>
+		<input type="checkbox" on:click={removeQuestion(questionNo)}>
+		<h2>Q{questionNo}.</h2>
+	</span>
 
 <table>
 
