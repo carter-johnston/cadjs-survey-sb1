@@ -4,9 +4,6 @@ import azure from 'svelte-adapter-azure-swa';
 const config = {
 	kit: {
 		adapter: azure(),
-		alias: {
-			$db: './src/db',
-		}
 	}
 };
 

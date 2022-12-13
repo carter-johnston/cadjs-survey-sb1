@@ -1,9 +1,4 @@
 import { test_collection } from '../../db/collections/test_collection';
- 
-// /** @type {import('./$types').PageServerLoad} */
-// export async function load({  }) {
-
-//  }
 
 /** @type {import('./$types').Actions} */
 export const actions = {
