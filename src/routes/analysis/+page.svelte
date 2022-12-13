@@ -2,29 +2,28 @@
 <head>
 
 </head>
-<!-- <script>
+<script lang ='ts'>
+  import type {PageData} from "./$types";
 
+   export let data: PageData
 
-    import { add_flush_callback, exclude_internal_props, prevent_default } from "svelte/internal";
-    import { saveAs } from 'file-saver';
-    import * as XLSX from 'xlsx/xlsx.mjs'; -->
-    
-    
-    
-
-    <script lang ="ts">
-  export let surveys: any[]
-</script>
-<h1>Survey list</h1>
-<ul>
+   $: ({surveys} = data)
+  </script>
+  <h1>Survey list</h1>
+  <ul>
     {#each surveys as survey}
-    <li>
-        <h3>{surveys.surveyName}</h3>
-        <p>{surveys.surveyAuthor}</p>
-        <p>{surveys.numQuestions}</p>
-        <p>{surveys.creationDate}</p>
-    </li>
-</ul>
+      <li>
+        <h3>{survey.surveyName}</h3>
+        <p>{survey.surveyAuthor}</p>
+      </li>
+    {/each}
+  </ul>
+    
+    
+
+    
+
+
 
 
 
