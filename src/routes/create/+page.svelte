@@ -2,19 +2,20 @@
     // import Selection from "./components/questions/Selection.svelte";
     // import Comment from "./questions/Comment.svelte";
     // import Dropdown from "./components/questions/Dropdown.svelte";
-    import Likert from './questions/Likert.svelte';
-    import Text from './questions/Text.svelte';
+    import Likert from './components/Likert.svelte';
+    import Comment from './components/Comment.svelte';
+    import Text from './components/Text.svelte';
 
     import { DateTime } from 'luxon';
     import { v4 as uuidv4 } from 'uuid';
     import { draggable } from 'svelte-drag';
 
     const componentOptions = [
-		{ title: "Likert", component: Likert },
-		{ title: "Text", component: Text  },
+		{ title: "likert", component: Likert },
+		{ title: "text", component: Text  },
+        { title: "Comment", component: Comment  },
         // { title: "Selection", component: Selection  },
         // { title: "Dropdown", component: Dropdown  },
-        // { title: "Comment", component: Comment  },
         //FIXME fix slider 
         //{ title: 'Slider', component: Slider }, 
 	];

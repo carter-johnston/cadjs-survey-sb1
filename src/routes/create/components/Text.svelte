@@ -1,8 +1,8 @@
 <script>
-    export let questionNumber;
+    export let questionNo;
     let textValue = "";
 </script>
-<h2>Q{questionNumber}.</h2>
+<h2>Q{questionNo}.</h2>
 
 <label for="def">Question:</label><br>
 <input type="text" id="def" name="def"><br>

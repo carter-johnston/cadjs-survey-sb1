@@ -10,7 +10,7 @@
 
 </script>
 	<span>
-		<input type="checkbox" on:click={removeQuestion(questionNo)}>
+		<input type="checkbox">
 		<h2>Q{questionNo}.</h2>
 	</span>
 
