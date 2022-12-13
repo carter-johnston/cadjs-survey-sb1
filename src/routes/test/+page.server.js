@@ -1,4 +1,9 @@
 import { test_collection } from '../../db/collections/test_collection';
+ 
+// /** @type {import('./$types').PageServerLoad} */
+// export async function load({  }) {
+
+//  }
 
 /** @type {import('./$types').Actions} */
 export const actions = {
@@ -12,7 +17,6 @@ export const actions = {
 
         //get string values of your form data
         const surveyName = data.get('title');
-
 
         //insert one object into db. async needed or else you'll get back "<pending>"
         const mongoResponse = await test_collection.insertOne({
