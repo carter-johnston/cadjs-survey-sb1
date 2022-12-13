@@ -20,6 +20,7 @@
 		"fontawesome": "^5.6.3",
 		"luxon": "^3.1.1",
 		"mongodb": "^4.12.1",
+		"svelte-drag": "^3.1.0",
 		"sveltestrap": "^5.9.0",
 		"uuid": "^9.0.0"
 	}

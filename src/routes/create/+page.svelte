@@ -7,6 +7,7 @@
     import Comment from "../../components/questions/Comment.svelte";
     import { DateTime } from 'luxon';
     import { v4 as uuidv4 } from 'uuid';
+    import { draggable } from 'svelte-drag';
 
     const componentOptions = [
 		{ title: "Likert", component: Likert },
@@ -77,14 +78,16 @@
         <div class="list-group">
             {#each questionComponents as question, index}
                 <div class="list-group-item list-group-item-action">
-
-                    <svelte:component 
+                    <div use:draggable>
+                        <svelte:component 
                         this={question} 
                         questionNo={index+1}
                         handleDelete={removeQuestion}
                         questionBank={alterQuestionInBank}
                         id={uuidv4}
-                    />
+                        />
+                    </div>
+
 
                 </div>
             {:else}
