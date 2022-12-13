@@ -1,4 +1,4 @@
-import { surveys } from '../../db/collections/surveys';
+import { surveys } from '$lib/collections/surveys';
 
 
 // /** @type {import('./$types').PageLoad} */

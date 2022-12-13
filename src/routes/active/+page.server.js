@@ -1,5 +1,4 @@
-import { surveys } from '$lib/server/surveys';
-import { json } from '@sveltejs/kit';
+import { surveys } from '$lib/collections/surveys';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params }) {
@@ -12,7 +11,6 @@ export async function load({ params }) {
             creationDate: 1,
         }
     }).toArray();
-
     return { activeSurveys };
 }
 

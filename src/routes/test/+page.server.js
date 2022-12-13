@@ -1,4 +1,4 @@
-import { test_collection } from '../../db/collections/test_collection';
+import { test_collection } from '$lib/collections/test_collection';
  
 // /** @type {import('./$types').PageServerLoad} */
 // export async function load({  }) {

@@ -1,10 +1,10 @@
 <script>
+    // import Selection from "./components/questions/Selection.svelte";
+    // import Comment from "./questions/Comment.svelte";
+    // import Dropdown from "./components/questions/Dropdown.svelte";
+    import Likert from "./questions/Likert.svelte";
+    import Text from "./questions/Text.svelte";
 
-    import Dropdown from "../../components/questions/Dropdown.svelte";
-    import Likert from "../../components/questions/Likert.svelte";
-    import Selection from "../../components/questions/Selection.svelte";
-    import Text from "../../components/questions/Text.svelte";
-    import Comment from "../../components/questions/Comment.svelte";
     import { DateTime } from 'luxon';
     import { v4 as uuidv4 } from 'uuid';
     import { draggable } from 'svelte-drag';
@@ -12,9 +12,9 @@
     const componentOptions = [
 		{ title: "Likert", component: Likert },
 		{ title: "Text", component: Text  },
-        { title: "Selection", component: Selection  },
-        { title: "Dropdown", component: Dropdown  },
-        { title: "Comment", component: Comment  },
+        // { title: "Selection", component: Selection  },
+        // { title: "Dropdown", component: Dropdown  },
+        // { title: "Comment", component: Comment  },
         //FIXME fix slider 
         //{ title: 'Slider', component: Slider }, 
 	];
