@@ -3,7 +3,7 @@ import { test_collection } from '../../db/collections/test_collection';
 /** @type {import('./$types').Actions} */
 export const actions = {
     testPost: async ({ request }) => {
-    
+
         //establish connection > database > collection.
         //TODO: move connection out to its own service if it becomes too cumbersome. 
 
@@ -11,7 +11,7 @@ export const actions = {
         const data = await request.formData();
 
         //get string values of your form data
-        const title = data.get('title');
+        const surveyName = data.get('title');
 
 
         //insert one object into db. async needed or else you'll get back "<pending>"
@@ -24,9 +24,9 @@ export const actions = {
         //assigns to ActionData on the page. (export let form;)
         return {
             success: true,
-            message: `Server received ${title} and inserted it into the db collection.`, 
+            message: `Server received ${surveyName} and inserted it into the db collection.`,
             ack: JSON.stringify(mongoResponse),
-            }
+        }
     },
 
     testPost2: async ({ request }) => {
@@ -37,9 +37,9 @@ export const actions = {
         }}).toArray();
         console.log('data', data)    
 
-        return { 
+        return {
             success2: true,
-            surveys: data, 
+            surveys: data,
         }
     },
 };
