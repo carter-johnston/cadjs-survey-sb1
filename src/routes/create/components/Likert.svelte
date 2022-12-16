@@ -1,17 +1,34 @@
 <script>
-	export let questionNo;
-	//export let removeQuestion; //callback to remove component from list
-	//export let questionBank; //callback to update question bank
+	import { createEventDispatcher } from 'svelte';
+
+	export let indexInQuestionBank;
+	export let uid;
+
+	let columns = [];
+	let rows = [];
 	
 	const defaultRow = "new question.";
 	const defaultColumn = "new label.";
-	let columns = [];
-	let rows = [];
+	const questionType = 'likert';
+	const dispatchName = 'modifyQuestion';
+
+	const dispatch = createEventDispatcher();
+
+	$:{
+		const question = {
+			uid,
+			indexInQuestionBank,
+			questionType,
+			columns,
+			rows,
+		}
+		dispatch(dispatchName, question);
+	}
 
 </script>
 	<span>
 		<input type="checkbox">
-		<h2>Q{questionNo}.</h2>
+		<h2>Q{indexInQuestionBank+1}.</h2>
 	</span>
 
 <table>

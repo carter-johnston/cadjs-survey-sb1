@@ -8,7 +8,6 @@
 
     import { DateTime } from 'luxon';
     import { v4 as uuidv4 } from 'uuid';
-    import { draggable } from 'svelte-drag';
 
     const componentOptions = [
 		{ title: "likert", component: Likert },
@@ -26,16 +25,34 @@
     const dateCreated = DateTime.now();
     let selected = componentOptions[0];
     let questionComponents = [];
+    let questionBank = [];
 
-    function alterQuestionInBank(questionNo) {
-        console.log('bank is being altered.');
-    }
 
     function removeQuestion(index) {
         console.log(`${index} flagged for deletion`);
         questions.splice(index, 1)//FIXME pop only works for deleting tail of the list for some reason. additional attention needed.
         questions = questions;
     };
+
+    function modifyQuestionBank(e) {//TODO if clean up (if indIndex equals Num else...)
+        const question = e.detail;
+        const existsInQuestionBank = questionBank.find(q => q.uid === question.uid);
+
+        //if question is being added, append new question to the bank.
+        if(!existsInQuestionBank) {
+            questionBank = [question,...questionBank];
+        }
+        //question exists in the array. find index and replace it.
+        else {
+            console.log(question.uid)
+            const indexOfQuestionInBank = questionBank.findIndex(q => question.uid == q.uid)
+            questionBank.splice(indexOfQuestionInBank, 1, question);
+            questionBank = questionBank;
+            console.log(`modifying: ${indexOfQuestionInBank}`)
+        }
+    };
+
+    $: console.log(questionBank);
 
     function handleRearrange(startPosition, endPosition) {
         //TODO hand drag and drop rearrange questions list.
@@ -79,17 +96,7 @@
         <div class="list-group">
             {#each questionComponents as question, index}
                 <div class="list-group-item list-group-item-action">
-                    <div use:draggable>
-                        <svelte:component 
-                        this={question} 
-                        questionNo={index+1}
-                        handleDelete={removeQuestion}
-                        questionBank={alterQuestionInBank}
-                        id={uuidv4}
-                        />
-                    </div>
-
-
+                    <svelte:component this={question} on:modifyQuestion={modifyQuestionBank} indexInQuestionBank={index} uid={uuidv4()}/>
                 </div>
             {:else}
                 <div class="lead mb-3 ms-3">To add a question, select the desired type from the dropdown menu and click "Add Question"</div>
