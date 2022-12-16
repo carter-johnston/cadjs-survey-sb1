@@ -9,9 +9,6 @@ import { test_collection } from '$lib/collections/test_collection';
 export const actions = {
     testPost: async ({ request }) => {
 
-        //establish connection > database > collection.
-        //TODO: move connection out to its own service if it becomes too cumbersome. 
-
         //get form data from req. async needed.
         const data = await request.formData();
 

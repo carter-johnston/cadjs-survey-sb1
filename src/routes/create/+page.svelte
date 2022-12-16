@@ -9,32 +9,27 @@
     import { DateTime } from 'luxon';
     import { v4 as uuidv4 } from 'uuid';
 
-    const componentOptions = [
-		{ title: "likert", component: Likert },
-		{ title: "text", component: Text  },
-        { title: "Comment", component: Comment  },
-        // { title: "Selection", component: Selection  },
-        // { title: "Dropdown", component: Dropdown  },
-        //FIXME fix slider 
-        //{ title: 'Slider', component: Slider }, 
-	];
-
     /** @type {import('./$types').ActionData} */  
     export let form;
 
     const dateCreated = DateTime.now();
+    const componentOptions = [
+		{ title: "likert", component: Likert },
+		{ title: "text", component: Text  },
+        { title: "Comment", component: Comment  },
+        //TODO add other components back.
+	];
+
     let selected = componentOptions[0];
     let questionComponents = [];
     let questionBank = [];
 
 
-    function removeQuestion(index) {
-        console.log(`${index} flagged for deletion`);
-        questions.splice(index, 1)//FIXME pop only works for deleting tail of the list for some reason. additional attention needed.
-        questions = questions;
+    function removeQuestionFromBank(e) {
+        //TODO add dispatch for removing a question from the list.
     };
 
-    function modifyQuestionBank(e) {//TODO if clean up (if indIndex equals Num else...)
+    function modifyQuestionBank(e) {//TODO clean up (if indIndex equals Num else...)
         const question = e.detail;
         const existsInQuestionBank = questionBank.find(q => q.uid === question.uid);
 
@@ -51,18 +46,16 @@
             console.log(`modifying: ${indexOfQuestionInBank}`)
         }
     };
-
-    $: console.log(questionBank);
-
+    $: console.log(questionBank);//TODO remove when bank functionality is complete.
+ 
     function handleRearrange(startPosition, endPosition) {
-        //TODO hand drag and drop rearrange questions list.
+        //TODO handle drag and drop rearrange questions list.
     }
 
 </script>
+
 <form method="POST" action="?/submitSurvey">
-
     <div class="ms-5 me-5 mt-2">
-
         <h1 class="mb-3">Create a Survey</h1>
 
             {#if form?.success}
@@ -87,13 +80,9 @@
                     <input name="dateCreated" type="text" placeholder={dateCreated} readonly>
                 </div>
             </div>
-
         
-
-        <!-- <input type="text" name="questions" value={questions} hidden> -->
-        
-        <!-- TODO add handle deletion to all components. https://svelte.dev/tutorial/keyed-each-blocks found it -->
         <div class="list-group">
+
             {#each questionComponents as question, index}
                 <div class="list-group-item list-group-item-action">
                     <svelte:component this={question} on:modifyQuestion={modifyQuestionBank} indexInQuestionBank={index} uid={uuidv4()}/>
@@ -101,10 +90,10 @@
             {:else}
                 <div class="lead mb-3 ms-3">To add a question, select the desired type from the dropdown menu and click "Add Question"</div>
             {/each}
+
         </div>
 
         <!-- On click will push selected component from dropdown to the list of questions -->
-        
         <button type="button" class="btn btn-outline-secondary" 
             on:click={() => {
                 questionComponents.push(selected.component);
@@ -124,6 +113,8 @@
         <div>
             <button class="btn btn-primary">Submit</button>
             <button formaction="?/reset" class="btn btn-secondary">Reset</button>
+            <!-- TODO add reset functionality -->
+            <!-- TODO wrap submit and reset with prompt to user confirming. -->
         </div>
     </div>
 </form>
