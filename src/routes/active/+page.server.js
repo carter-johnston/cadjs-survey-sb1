@@ -19,11 +19,12 @@ export const actions = {
     deleteSurvey: async ({ request }) => {
         console.log(request);
 
-        const data = await request.formData();
+        if (!request.surveyName) {
+            console.log("Survey name does not exist in the request.");
+            return;
+        }
 
-        console.log({ data });
-
-        const deleteName = data.get('surveyName');
+        const deleteName = request.surveyName;
 
         console.log({ deleteName });
 
