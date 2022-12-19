@@ -1,12 +1,5 @@
 import { surveys } from '$lib/collections/surveys';
-
-
-// /** @type {import('./$types').PageLoad} */
-// export async function load() {
-//     //if post successful, redirect to Active-Surveys page. 
-    
-//     //get questionbank.
-// }
+import { json } from '@sveltejs/kit';
 
 /** @type {import('./$types').Actions} */
 export const actions = {
@@ -18,14 +11,14 @@ export const actions = {
         const surveyTitle = data.get('surveyTitle');
         const surveyDesc = data.get('surveyDesc');
         const dateCreated = data.get('dateCreated');
-        // const questions = data.get('questions');
+        const questions = data.get('questions');
        
         const ack = await surveys.insertOne({
             surveyTitle,
             surveyDesc,
             dateCreated,
             author: "test-user",
-            // questions,
+            questions,
         });
 
         //return ack

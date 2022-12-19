@@ -1,13 +1,14 @@
 <script>
-    // import Selection from "./components/questions/Selection.svelte";
-    // import Comment from "./questions/Comment.svelte";
-    // import Dropdown from "./components/questions/Dropdown.svelte";
-    import Likert from './components/Likert.svelte';
+// import Selection from "./components/questions/Selection.svelte";
+// import Comment from "./questions/Comment.svelte";
+// import Dropdown from "./components/questions/Dropdown.svelte";
+import Likert from './components/Likert.svelte';
     import Comment from './components/Comment.svelte';
     import Text from './components/Text.svelte';
-
+    
     import { DateTime } from 'luxon';
     import { v4 as uuidv4 } from 'uuid';
+    import { page } from "$app/stores";
 
     /** @type {import('./$types').ActionData} */  
     export let form;
@@ -22,6 +23,9 @@
 
     let selected = componentOptions[0];
     let questionComponents = [];
+
+    let title = '';
+    let desc = '';
     let questionBank = [];
 
 
@@ -44,15 +48,29 @@
         }
     };
 
-     $: console.log(questionBank);//TODO remove when bank functionality is complete.
+    $: console.log(questionBank);//TODO remove when bank functionality is complete.
  
     function handleRearrange(startPosition, endPosition) {
         //TODO handle drag and drop rearrange questions list.
     }
 
+    const path = $page.url;
+    async function handleSubmit() {
+        const ack = await fetch(path, {
+            method: 'POST',
+            body: JSON.stringify({
+                title,
+                desc,
+                dateCreated,
+                questions: questionBank,
+            }),
+            headers: { 'content-type': 'application/json' }
+        })
+    }
+
 </script>
 
-<form method="POST" action="?/submitSurvey">
+<!-- <form method="POST" action="?/submitSurvey" on:submit={() => {}}> -->
     <div class="ms-5 me-5 mt-2">
         <h1 class="mb-3">Create a Survey</h1>
 
@@ -64,19 +82,21 @@
 
             <div class="ms-3">
                 <div class="form-group mb-3">
-                    <label class="form-label" for="surveyTitle">Title:</label>
-                    <input name="surveyTitle" type="text" />
+                    <label class="form-label" for="title">Title:</label>
+                    <input name="title" type="text" bind:value={title} />
                 </div>
             
                 <div class="form-group mb-3">
-                    <label class="form-label" for="surveyDesc">Description:</label>
-                    <input name="surveyDesc" type="text" />
+                    <label class="form-label" for="desc">Description:</label>
+                    <input name="desc" type="text" bind:value={desc} />
                 </div> 
             
                 <div class="form-group mb-3">
                     <label class="form-label" for="dateCreated">Created:</label>
                     <input name="dateCreated" type="text" placeholder={dateCreated} readonly>
                 </div>
+                <input name="questions" type="hidden" value={questionBank}>
+
             </div>
         
         <div class="list-group">
@@ -109,13 +129,12 @@
         <hr>
 
         <div>
-            <button class="btn btn-primary">Submit</button>
+            <button class="btn btn-primary" on:click={handleSubmit}>Submit</button>
             <button formaction="?/reset" class="btn btn-secondary">Reset</button>
             <!-- TODO add reset functionality -->
             <!-- TODO wrap submit and reset with prompt to user confirming. -->
         </div>
     </div>
-</form>
 
 
 
