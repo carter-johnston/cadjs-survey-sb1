@@ -29,24 +29,22 @@
         //TODO add dispatch for removing a question from the list.
     };
 
-    function modifyQuestionBank(e) {//TODO clean up (if indIndex equals Num else...)
+    function modifyQuestionBank(e) {
         const question = e.detail;
-        const existsInQuestionBank = questionBank.find(q => q.uid === question.uid);
+        const indexOfQuestionInBank = questionBank.findIndex(q => question.uid === q.uid)
 
-        //if question is being added, append new question to the bank.
-        if(!existsInQuestionBank) {
+        //if question is being added, add new question to the bank.
+        if(indexOfQuestionInBank == -1) {
             questionBank = [question,...questionBank];
         }
-        //question exists in the array. find index and replace it.
+        //question exists in the array. replace it by index.
         else {
-            console.log(question.uid)
-            const indexOfQuestionInBank = questionBank.findIndex(q => question.uid == q.uid)
             questionBank.splice(indexOfQuestionInBank, 1, question);
             questionBank = questionBank;
-            console.log(`modifying: ${indexOfQuestionInBank}`)
         }
     };
-    $: console.log(questionBank);//TODO remove when bank functionality is complete.
+
+     $: console.log(questionBank);//TODO remove when bank functionality is complete.
  
     function handleRearrange(startPosition, endPosition) {
         //TODO handle drag and drop rearrange questions list.

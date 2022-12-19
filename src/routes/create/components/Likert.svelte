@@ -14,7 +14,7 @@
 
 	const dispatch = createEventDispatcher();
 
-	$:{
+	$:{// Executes whenever any variables below are updated. dispatches event.
 		const question = {
 			uid,
 			indexInQuestionBank,
