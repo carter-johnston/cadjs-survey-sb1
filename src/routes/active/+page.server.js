@@ -14,29 +14,29 @@ export async function load({ params }) {
     return { activeSurveys };
 }
 
-/** @type {import('./$types').Actions} */
-export const actions = {
-    deleteSurvey: async ({ request }) => {
-        console.log(request);
+// /** @type {import('./$types').Actions} */
+// export const actions = {
+//     deleteSurvey: async ({ request }) => {
+//         console.log(request);
 
-        if (!request.surveyName) {
-            console.log("Survey name does not exist in the request.");
-            return;
-        }
+//         if (!request.surveyName) {
+//             console.log("Survey name does not exist in the request.");
+//             return;
+//         }
 
-        const deleteName = request.surveyName;
+//         const deleteName = request.surveyName;
 
-        console.log({ deleteName });
+//         console.log({ deleteName });
 
-        const mongoResponse = await surveys.deleteOne({ surveyName: deleteName });
-        // console.log(mongoResponse);
+//         const mongoResponse = await surveys.deleteOne({ surveyName: deleteName });
+//         // console.log(mongoResponse);
 
-        return {
-            success: true,
-            message: `Server received ${deleteName} and deleted it from the db collection.`,
-            ack: JSON.stringify(mongoResponse),
-        }
-    },
-};
+//         return {
+//             success: true,
+//             message: `Server received ${deleteName} and deleted it from the db collection.`,
+//             ack: JSON.stringify(mongoResponse),
+//         }
+//     },
+// };
 
 

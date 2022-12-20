@@ -18,12 +18,14 @@
             );
             return;
         } else {
-            const url = `${path}/deleteSurvey/?surveyName=${surveyName}`;
+            const urlArgument = new URLSearchParams();
+            urlArgument.set("surveyName", `${surveyName}`);
+            const url = `${path}?${urlArgument}`;
             const res = await fetch(url, {
                 method: "DELETE",
-                headers: { "content-type": "application/json" },
             });
-            console.log({ res });
+            const data = await res.json();
+            console.log(data);
         }
     }
 
@@ -44,12 +46,13 @@
             <button use:copy={window.location.host + "/survey"} class="btn-info"
                 >Copy Link to Clipboard</button
             >
-            <button on:click={createPDF(survey)} class="btn-secondary"
+            <button on:click={() => createPDF(survey)} class="btn-secondary"
                 >Download Link as PDF</button
             >
             <a href="/edit"><button class="btn-success">Edit</button></a>
-            <button class="btn-danger" onclick={deleteSurvey(survey.surveyName)}
-                >Delete</button
+            <button
+                class="btn-danger"
+                on:click={() => deleteSurvey(survey.surveyName)}>Delete</button
             >
         </div>
     {:else}
