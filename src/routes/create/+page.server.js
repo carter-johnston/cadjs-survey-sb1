@@ -1,15 +1,19 @@
 import { surveys } from '$lib/collections/surveys';
 
-//TODO add logic for handling errors.
+//TODO add logic for handling errors. 
 /** @type {import('./$types').Actions} */
 export const actions = {
   submitSurvey: async ({ request }) => {
     const data = await request.formData();
+    console.log(data);
 
-    const surveyTitle = data.get('surveyTitle');
-    const surveyDesc = data.get('surveyDesc');
+    // let dateCreated = DateTime.now().toFormat('DD').toString();//EX: Dec 19, 2022
+
+
+    const surveyTitle = data.get('title');
+    const surveyDesc = data.get('desc');
     const dateCreated = data.get('dateCreated');
-    const questions = data.get('questions');
+    const questions = JSON.parse(data.get('questions'));
 
     const ack = await surveys.insertOne({
       surveyTitle,

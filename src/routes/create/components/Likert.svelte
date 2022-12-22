@@ -1,63 +1,47 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
+  export let questionData = {
+    columns: [],
+    rows: [],
+  };
+  export let index;
 
-	export let indexInQuestionBank;
-	export let uid;
-
-	let columns = [];
-	let rows = [];
-	
-	const defaultRow = "new question.";
-	const defaultColumn = "new label.";
-	const questionType = 'likert';
-	const dispatchName = 'modifyQuestion';
-
-	const dispatch = createEventDispatcher();
-
-	$:{// Executes whenever any variables below are updated. dispatches event.
-		const question = {
-			uid,
-			indexInQuestionBank,
-			questionType,
-			columns,
-			rows,
-		}
-		dispatch(dispatchName, question);
-	}
-
+  const defaultRow = "new question.";
+  const defaultColumn = "new label.";
 </script>
-	<span>
-		<input type="checkbox">
-		<h2>Q{indexInQuestionBank+1}.</h2>
-	</span>
+
+<h2>Q{index + 1}.</h2>
 
 <table>
-
-	<tr>
-		<th>Question</th>
-		{#each columns as column}
-		<th  contenteditable="true" bind:textContent={column}>{column}</th>
-		{/each}
-	</tr>
-	{#each rows as row}
-		<tr>
-			<td contenteditable="true" bind:textContent={row}>{row}</td>
-			{#each columns as col}
-				<td><input type="radio"></td>
-			{/each}
-		</tr>
-	{/each}
-
+  <tr>
+    <th>Question</th>
+    {#each questionData.columns as column}
+      <th contenteditable="true" bind:textContent={column}>{column}</th>
+    {/each}
+  </tr>
+  {#each questionData.rows as row}
+    <tr>
+      <td contenteditable="true" bind:textContent={row}>{row}</td>
+      {#each questionData.columns as _}
+        <td><input type="radio" disabled /></td>
+      {/each}
+    </tr>
+  {/each}
 </table>
 
-<button type="button" class="btn btn-secondary" 
-	on:click={() => {
-		rows = [...rows, defaultRow ];
-	}}>Add Row
+<button
+  type="button"
+  class="btn btn-secondary"
+  on:click={() => {
+    questionData.rows = [...questionData.rows, defaultRow];
+  }}
+  >Add Row
 </button>
 
-<button type="button" class="btn btn-secondary" 
-	on:click={() => {
-		columns = [...columns, defaultColumn ];
-	}}>Add Column
+<button
+  type="button"
+  class="btn btn-secondary"
+  on:click={() => {
+    questionData.columns = [...questionData.columns, defaultColumn];
+  }}
+  >Add Column
 </button>

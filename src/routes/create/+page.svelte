@@ -3,59 +3,25 @@
   // import Comment from "./questions/Comment.svelte";
   // import Dropdown from "./components/questions/Dropdown.svelte";
   import Likert from "./components/Likert.svelte";
-  import Comment from "./components/Comment.svelte";
   import Text from "./components/Text.svelte";
-
-  import { DateTime } from "luxon";
-  import { v4 as uuidv4 } from "uuid";
-  import { page } from "$app/stores";
+  import { writable } from "svelte/store";
 
   /** @type {import('./$types').ActionData} */
   export let form;
 
-  const dateCreated = DateTime.now();
-  const componentOptions = [
-    { title: "likert", component: Likert },
-    { title: "text", component: Text },
-    { title: "Comment", component: Comment },
-    //TODO add other components back.
-  ];
+  const surveyForm = writable({
+    title: "",
+    description: "",
+    questionBank: [],
+  });
 
-  let selected = componentOptions[0];
-  let questionComponents = [];
+  const componentOptions = {
+    likert: Likert,
+    text: Text,
+  };
+  let selected = "likert";
 
-  let title = "";
-  let desc = "";
-  let questionBank = [];
-
-  $: stringifiedQuestionBank = JSON.stringify(questionBank); //HACk: gets stringified on every update.
-
-  function removeQuestionFromBank(e) {
-    //TODO add dispatch for removing a question from the list.
-  }
-
-  function modifyQuestionBank(e) {
-    const question = e.detail;
-    const indexOfQuestionInBank = questionBank.findIndex(
-      (q) => question.uid === q.uid
-    );
-
-    //if question is being added, add new question to the bank.
-    if (indexOfQuestionInBank == -1) {
-      questionBank = [question, ...questionBank];
-    }
-    //question exists in the array. replace it by index.
-    else {
-      questionBank.splice(indexOfQuestionInBank, 1, question);
-      questionBank = questionBank;
-    }
-  }
-
-  $: console.log(questionBank); //TODO remove when bank functionality is complete.
-
-  function handleRearrange(startPosition, endPosition) {
-    //TODO handle drag and drop rearrange questions list.
-  }
+  $: console.log({ $surveyForm });
 </script>
 
 <form method="POST" action="?/submitSurvey">
@@ -71,38 +37,32 @@
     <div class="ms-3">
       <div class="form-group mb-3">
         <label class="form-label" for="title">Title:</label>
-        <input name="title" type="text" bind:value={title} />
+        <input name="title" type="text" bind:value={$surveyForm.title} />
       </div>
 
       <div class="form-group mb-3">
         <label class="form-label" for="desc">Description:</label>
-        <input name="desc" type="text" bind:value={desc} />
+        <input name="desc" type="text" bind:value={$surveyForm.description} />
       </div>
 
-      <div class="form-group mb-3">
+      <!-- <div class="form-group mb-3">
         <label class="form-label" for="dateCreated">Created:</label>
-        <input
-          name="dateCreated"
-          type="text"
-          placeholder={dateCreated.toISODate()}
-          readonly
-        />
-      </div>
-      <input
+        <input name="dateCreated" type="text" bind:value={dateCreated} /> 
+      </div> -->
+      <!-- <input
         name="questions"
         type="hidden"
         value={JSON.stringify(questionBank)}
-      />
+      /> -->
     </div>
 
     <div class="list-group">
-      {#each questionComponents as component, index}
+      {#each $surveyForm.questionBank as question, index}
         <div class="list-group-item list-group-item-action">
           <svelte:component
-            this={component}
-            on:modifyQuestion={modifyQuestionBank}
-            indexInQuestionBank={index}
-            uid={uuidv4()}
+            this={componentOptions[question.type]}
+            bind:questionData={question.data}
+            {index}
           />
         </div>
       {:else}
@@ -118,15 +78,20 @@
       type="button"
       class="btn btn-outline-secondary"
       on:click={() => {
-        questionComponents.push(selected.component);
-        questionComponents = questionComponents;
+        $surveyForm.questionBank = [
+          ...$surveyForm.questionBank,
+          {
+            type: selected,
+            data: undefined, //TODO default data models if any issues arise.
+          },
+        ];
       }}
       >Add Question
     </button>
 
     <select class="btn btn-secondary" bind:value={selected}>
-      {#each componentOptions as option}
-        <option value={option}>{option.title}</option>
+      {#each Object.keys(componentOptions) as componentKey}
+        <option value={componentKey}>{componentKey}</option>
       {/each}
     </select>
 
