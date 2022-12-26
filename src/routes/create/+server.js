@@ -1,11 +1,16 @@
-import { json } from '@sveltejs/kit';
-
+import { json } from "@sveltejs/kit";
+import { surveys } from "$lib/collections/surveys";
+import { DateTime } from "luxon";
 
 /** @type {import('./$types').RequestHandler} */
-export async function POST(event) {
-  console.log(...event.request.headers);
+export async function POST({ request }) {
+  const data = await request.json();
 
-  return json({
-    questions: event.request.body.questions,
-  })
+  console.log(data);
+  const ack = await surveys.insertOne({
+    ...data,
+    dateCreated: DateTime.now(),
+  });
+
+  return json(ack);
 }

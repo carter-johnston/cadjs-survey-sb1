@@ -9,4 +9,3 @@
 
 <label for="def">Question:</label><br />
 <input type="text" id="def" name="def" bind:value={questionData.question} />
-<br />

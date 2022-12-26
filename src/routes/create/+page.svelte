@@ -1,13 +1,14 @@
 <script>
-  // import Selection from "./components/questions/Selection.svelte";
-  // import Comment from "./questions/Comment.svelte";
-  // import Dropdown from "./components/questions/Dropdown.svelte";
-  import Likert from "./components/Likert.svelte";
-  import Text from "./components/Text.svelte";
+  import Slider from "$lib/components/create/Slider.svelte";
+  import Likert from "$lib/components/create/Likert.svelte";
+  import Text from "$lib/components/create/Text.svelte";
+  import Selection from "$lib/components/create/Selection.svelte";
+  import Dropdown from "$lib/components/create/Dropdown.svelte";
+
   import { writable } from "svelte/store";
 
   /** @type {import('./$types').ActionData} */
-  export let form;
+  export let form; //TODO remove for Load Action
 
   const surveyForm = writable({
     title: "",
@@ -18,13 +19,25 @@
   const componentOptions = {
     likert: Likert,
     text: Text,
+    selection: Selection,
+    slider: Slider,
+    dropdown: Dropdown,
   };
   let selected = "likert";
 
+  async function handleSubmit(e) {
+    await fetch("", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify($surveyForm),
+    });
+  }
   $: console.log({ $surveyForm });
 </script>
 
-<form method="POST" action="?/submitSurvey">
+<form on:submit|preventDefault={handleSubmit}>
   <div class="ms-5 me-5 mt-2">
     <h1 class="mb-3">Create a Survey</h1>
 
@@ -44,16 +57,6 @@
         <label class="form-label" for="desc">Description:</label>
         <input name="desc" type="text" bind:value={$surveyForm.description} />
       </div>
-
-      <!-- <div class="form-group mb-3">
-        <label class="form-label" for="dateCreated">Created:</label>
-        <input name="dateCreated" type="text" bind:value={dateCreated} /> 
-      </div> -->
-      <!-- <input
-        name="questions"
-        type="hidden"
-        value={JSON.stringify(questionBank)}
-      /> -->
     </div>
 
     <div class="list-group">
@@ -98,7 +101,7 @@
     <hr />
 
     <div>
-      <button class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">Submit</button>
       <button formaction="?/reset" class="btn btn-secondary">Reset</button>
       <!-- TODO add reset functionality -->
       <!-- TODO wrap submit and reset with prompt to user confirming. -->
