@@ -1,69 +1,93 @@
 <script>
-  import { copy } from "svelte-copy";
-  import { jsPDF } from "jspdf";
-  import { page } from "$app/stores";
-  const path = $page.url;
+	import { copy } from 'svelte-copy';
+	import { jsPDF } from 'jspdf';
+	import { page } from '$app/stores';
+	const path = $page.url;
 
-  //TODO consult with Dhori on building out the survey.
-  //you either need to overhaul that functionality or piggyback off his implementation and convert from html to pdf.
-  function createPDF(survey) {
-    let doc = new jsPDF();
-    let text = `Survey Name: ${survey.surveyName}\nSurvey Author: ${survey.surveyAuthor}\nNum Questions: ${survey.numQuestions}\nCreation Date: ${survey.creationDate}\n`;
-    doc.text(text, 10, 10);
-    doc.save(survey.surveyName);
-  }
+	//TODO consult with Dhori on building out the survey.
+	//you either need to overhaul that functionality or piggyback off his implementation and convert from html to pdf.
+	function createPDF(survey) {
+		let doc = new jsPDF();
+		let text = `Survey Name: ${survey.surveyName}\nSurvey Author: ${survey.surveyAuthor}\nNum Questions: ${survey.numQuestions}\nCreation Date: ${survey.creationDate}\n`;
+		doc.text(text, 10, 10);
+		doc.save(survey.surveyName);
+	}
 
-  //TODO Update logic to "try" delete, if unsuccessful handle 400 error. if(!surveyName) will not typically be a concern
-  async function deleteSurvey(surveyName) {
-    if (!surveyName) {
-      console.log(
-        "No survey name was passed to delete function, check that survey entry has valid attributes."
-      );
-      return;
-    } else {
-      const urlArgument = new URLSearchParams();
-      urlArgument.set("surveyName", `${surveyName}`);
-      const url = `${path}?${urlArgument}`;
-      const res = await fetch(url, {
-        method: "DELETE",
-      });
-      const data = await res.json();
-      console.log(data);
-    }
-  }
+	//TODO Update logic to "try" delete, if unsuccessful handle 400 error. if(!surveyName) will not typically be a concern
+	async function deleteSurvey(surveyName) {
+		if (!surveyName) {
+			const urlArgument = new URLSearchParams();
+			urlArgument.set('surveyName', `${surveyName}`);
+			const url = `${path}?${urlArgument}`;
+			const res = await fetch(url, {
+				method: 'DELETE',
+			});
+			const data = await res.json();
+			console.log(data);
+		}
+	}
 
-  /** @type {import('./$types').PageData} */
-  export let data;
+	/** @type {import('./$types').PageData} */
+	export let data;
 </script>
 
-<h1>Active Surveys</h1>
+<div class="ms-5 me-5 mt-2">
+	<h1 class="mb-3">Active Surveys</h1>
+	<div class="lead ms-3">
+		Here is a list of existing surveys. Select <i>Activate</i> on the survey
+		you with to share. Once activated, will only be available for a short time.
+	</div>
+	<div class="list-group">
+		{#each data.activeSurveys as survey}
+			<div class="container border border-rounded m-1 p-2">
+				<div class="d-flex p-2">
+					<strong>
+						{survey.surveyName}
+						<span class="badge bg-success">active</span>
+					</strong>
+				</div>
+				<div class="d-flex p-2">
+					<div class="flex-fill">
+						<strong>Author:</strong>
+						{survey.surveyAuthor}
+					</div>
 
-<div class="list-group">
-  {#each data.activeSurveys as survey}
-    <div class="list-group-item list-group-item-action">
-      <span>Name: {survey.surveyName}</span>
-      <span>Author: {survey.surveyAuthor}</span>
-      <span>Num Questions: {survey.numQuestions}</span>
-      <span>Creation Date: {survey.creationDate}</span>
-      <button use:copy={window.location.host + "/survey"} class="btn btn-info"
-        >Copy Link to Clipboard</button
-      >
-      <button on:click={() => createPDF(survey)} class="btn btn-secondary"
-        >Download Link as PDF</button
-      >
-      <a href="/edit"><button class="btn btn-success">Edit</button></a>
-      <button
-        class="btn btn-danger"
-        on:click={() => deleteSurvey(survey.surveyName)}>Delete</button
-      >
-    </div>
-  {:else}
-    <p>There are no existing surveys</p>
-  {/each}
+					<div class="flex-fill">
+						<strong>Created:</strong>
+						{survey.creationDate}
+					</div>
+				</div>
+				<div class="d-flex ms-2">
+					<strong>Number of Questions:</strong>
+					{survey.numQuestions}
+				</div>
+
+				<div class="d-flex p-2">
+					<button class="btn btn-success" on:click="{() => {}}"
+						>Activate</button>
+					<button
+						class="btn btn-outline-secondary"
+						use:copy="{window.location.host + '/survey'}"
+						>Copy Link to Clipboard</button>
+					<button
+						class="btn btn-outline-secondary"
+						on:click="{createPDF(survey)}"
+						>Download Link as PDF</button>
+					<button class="btn btn-outline-secondary">Edit</button>
+					<button
+						class="btn btn-outline-danger"
+						on:click="{deleteSurvey(survey.surveyName)}"
+						>Delete</button>
+				</div>
+			</div>
+		{:else}
+			<p>There are no existing surveys</p>
+		{/each}
+	</div>
 </div>
 
 <style>
-  span {
-    display: flex;
-  }
+	/* span {
+		display: flex;
+	} */
 </style>
