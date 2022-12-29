@@ -11,8 +11,10 @@ export async function load({ params }) {
           _id: 0,
           surveyName: 1,
           surveyAuthor: 1,
-          numQuestions: 1,
+          numOfQuestions: 1,
           creationDate: 1,
+          
+          isActive: 1,
         },
       }
     )
