@@ -21,6 +21,7 @@
 	<div>
 		<button>Insert Into</button>
 		<button formaction="?/testPost2">Retrieve List</button>
+		<a href="/survey">Survey sample</a>
 	</div>
 </form>
 

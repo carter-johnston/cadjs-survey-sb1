@@ -66,16 +66,16 @@
 					<button class="btn btn-success" on:click="{() => {}}"
 						>Activate</button>
 					<button
-						class="btn btn-outline-secondary"
+						class="btn btn-secondary"
 						use:copy="{window.location.host + '/survey'}"
 						>Copy Link to Clipboard</button>
 					<button
-						class="btn btn-outline-secondary"
+						class="btn btn-secondary"
 						on:click="{createPDF(survey)}"
 						>Download Link as PDF</button>
-					<button class="btn btn-outline-secondary">Edit</button>
+					<button class="btn btn-secondary">Edit</button>
 					<button
-						class="btn btn-outline-danger"
+						class="btn btn-danger"
 						on:click="{deleteSurvey(survey.surveyName)}"
 						>Delete</button>
 				</div>
