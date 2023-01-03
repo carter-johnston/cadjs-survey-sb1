@@ -1,10 +1,54 @@
 <script>
-	import { copy } from "svelte-copy";
-	import { jsPDF } from "jspdf";
-	import { page } from "$app/stores";
-	const path = $page.url;
+	import { copy } from 'svelte-copy';
+	import { jsPDF } from 'jspdf';
+	import { page } from '$app/stores';
 
-	//TODO consult with Dhori on building out the survey.
+	const _url = $page.url;
+
+	async function handleActivation(surveyIdentifier) {
+		if (!surveyIdentifier)
+			return console.error(`no arguments passed to method: handleActivation()`);
+
+		const urlArgument = new URLSearchParams();
+		urlArgument.set('surveyIdentifier', surveyIdentifier);
+		const url = `${_url}/server/activate/?${urlArgument}`;
+
+		// fetch(url)
+		// 	.then((res) => res.json)
+		// 	.then((data) => data.ack);
+
+		const res = await fetch(url);
+		const data = await res.json();
+		console.log(data.ack);
+	}
+
+	async function copySurveyPathToClipboard(surveyIdentifier) {
+		if (!surveyIdentifier)
+			return console.error(`no arguments passed to method: copySurveyPathToClipboard()`);
+
+		const urlArgument = new URLSearchParams();
+		urlArgument.set('surveyIdentifier', surveyIdentifier);
+		const url = `${_url}/server/getLink/?${urlArgument}`;
+
+		const res = await fetch(url);
+		const data = await res.json();
+		const webLink = data.link;
+
+		const text = `${_url}/survey/${webLink}/`;
+
+		console.log(text);
+
+		navigator.clipboard
+			.writeText(text)
+			.then(() => {
+				alert(`${text} copied to clipboard`);
+			})
+			.catch((err) => {
+				alert('Error in copying text: ', err);
+			});
+	}
+
+	//TODO consult with Dhori on building out the survey on PDF.
 	//you either need to overhaul that functionality or piggyback off his implementation and convert from html to pdf.
 	function createPDF(survey) {
 		let doc = new jsPDF();
@@ -15,12 +59,12 @@
 
 	//TODO Update logic to "try" delete, if unsuccessful handle 400 error. if(!surveyName) will not typically be a concern
 	async function deleteSurvey(surveyName) {
-		if (!surveyName) {
+		if (surveyName) {
 			const urlArgument = new URLSearchParams();
-			urlArgument.set("surveyName", `${surveyName}`);
-			const url = `${path}?${urlArgument}`;
+			urlArgument.set('surveyName', surveyName);
+			const url = `/?${urlArgument}`;
 			const res = await fetch(url, {
-				method: "DELETE",
+				method: 'DELETE',
 			});
 			const data = await res.json();
 			console.log(data);
@@ -34,9 +78,9 @@
 <div class="ms-5 me-5 mt-2">
 	<h1 class="mb-3">Active Surveys</h1>
 	<div class="lead ms-3 mb-3">
-		Here is a list of existing surveys. Select the <i>"Activate"</i> button on
-		the survey that you wish to share. Once activated, that survey will only
-		be available until the set expiration date or until you close it.
+		Here is a list of existing surveys. Select the <i>Activate</i> button on the survey that you wish
+		to share. Once activated, that survey will only be available until the set expiration date or until
+		you close it.
 	</div>
 	<div class="list-group">
 		{#each data.activeSurveys as survey}
@@ -55,7 +99,7 @@
 
 					<div class="flex-fill">
 						<strong>Created:</strong>
-						{survey.dateCreated}
+						{survey.creationDate}
 					</div>
 				</div>
 				<div class="d-flex p-2">
@@ -64,26 +108,15 @@
 				</div>
 
 				<div class="d-flex p-2">
-					<button
-						class="btn btn-outline-success me-2"
-						on:click={() => {}}>Activate</button
-					>
-					<button
-						class="btn btn-outline-secondary me-2"
-						use:copy={window.location.host + "/survey"}
-						>Copy Link to Clipboard</button
-					>
-					<button
-						class="btn btn-outline-secondary me-2"
-						on:click={createPDF(survey)}
-						>Download Link as PDF</button
-					>
-					<button class="btn btn-outline-secondary me-2">Edit</button>
-					<button
-						class="btn btn-outline-danger me-2"
-						on:click={deleteSurvey(survey.surveyName)}
-						>Delete</button
-					>
+					<button class="btn btn-success me-2" on:click="{handleActivation(survey.id)}"
+						>Activate</button>
+					<button class="btn btn-secondary me-2" on:click="{copySurveyPathToClipboard(survey.id)}"
+						>Copy Link to Clipboard</button>
+					<button class="btn btn-secondary me-2" on:click="{createPDF(survey)}"
+						>Download Link as PDF</button>
+					<button class="btn btn-secondary me-2">Edit</button>
+					<button class="btn btn-danger me-2" on:click="{deleteSurvey(survey.surveyName)}"
+						>Delete</button>
 				</div>
 			</div>
 		{:else}
