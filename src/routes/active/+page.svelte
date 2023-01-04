@@ -1,9 +1,9 @@
 <script>
-  import { copy } from "svelte-copy";
   import { jsPDF } from "jspdf";
   import { page } from "$app/stores";
 
   const _url = $page.url;
+  const _origin = $page.url.origin;
 
   async function handleActivation(surveyIdentifier) {
     if (!surveyIdentifier)
@@ -36,7 +36,7 @@
     const data = await res.json();
     const webLink = data.link;
 
-    const text = `${_url}/survey/${webLink}/`;
+    const text = `${_origin}/survey/${webLink}/`;
 
     console.log(text);
 
