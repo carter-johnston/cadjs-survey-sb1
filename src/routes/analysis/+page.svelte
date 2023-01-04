@@ -3,46 +3,46 @@
 		add_flush_callback,
 		exclude_internal_props,
 		prevent_default,
-	} from 'svelte/internal';
-	import { saveAs } from 'file-saver';
-	import * as XLSX from 'xlsx/xlsx.mjs';
+	} from "svelte/internal";
+	import { saveAs } from "file-saver";
+	import * as XLSX from "xlsx/xlsx.mjs";
 
 	let surveyList = [
 		{
 			id: 0,
-			surveyName: 'Quest4Change',
-			surveyAuthor: 'Aaron J. Goldstein',
-			numQuestions: '4',
-			creationDate: '10/27/2022',
-			Questions: ['ID', 'Age', 'Likert1', 'Likert2'],
-			Entry: ['AJG', '22', '3', '5'],
+			surveyName: "Quest4Change",
+			surveyAuthor: "Aaron J. Goldstein",
+			numQuestions: "4",
+			creationDate: "10/27/2022",
+			Questions: ["ID", "Age", "Likert1", "Likert2"],
+			Entry: ["AJG", "22", "3", "5"],
 		},
 		{
 			id: 1,
-			surveyName: 'Quest4Change2',
-			surveyAuthor: 'Carter Johnston ',
-			numQuestions: '4',
-			creationDate: '10/27/2022',
-			Questions: ['ID', 'Age', 'Likert1', 'Likert2'],
-			Entry: ['CJ', '22', '3', '5'],
+			surveyName: "Quest4Change2",
+			surveyAuthor: "Carter Johnston ",
+			numQuestions: "4",
+			creationDate: "10/27/2022",
+			Questions: ["ID", "Age", "Likert1", "Likert2"],
+			Entry: ["CJ", "22", "3", "5"],
 		},
 		{
 			id: 2,
-			surveyName: 'Quest4Change3',
-			surveyAuthor: 'Jacob Schipman',
-			numQuestions: '4',
-			creationDate: '10/27/2022',
-			Questions: ['ID', 'Age', 'Likert1', 'Likert2'],
-			Entry: ['JAS', '22', '3', '5'],
+			surveyName: "Quest4Change3",
+			surveyAuthor: "Jacob Schipman",
+			numQuestions: "4",
+			creationDate: "10/27/2022",
+			Questions: ["ID", "Age", "Likert1", "Likert2"],
+			Entry: ["JAS", "22", "3", "5"],
 		},
 		{
 			id: 3,
-			surveyName: 'Quest4Change4',
-			surveyAuthor: 'Dhori Mato',
-			numQuestions: '4',
-			creationDate: '10/27/2022',
-			Questions: ['ID', 'Age', 'Likert1', 'Likert2'],
-			Entry: ['DM', '22', '3', '5'],
+			surveyName: "Quest4Change4",
+			surveyAuthor: "Dhori Mato",
+			numQuestions: "4",
+			creationDate: "10/27/2022",
+			Questions: ["ID", "Age", "Likert1", "Likert2"],
+			Entry: ["DM", "22", "3", "5"],
 		},
 	];
 
@@ -83,11 +83,11 @@
 		}
 		const row = Object.entries(Header);
 		console.log(typeof row);
-		var top = surveyList.map((row) => ({ Question: Header.join(',') }));
+		var top = surveyList.map((row) => ({ Question: Header.join(",") }));
 		console.log(top);
 		var worksheet = XLSX.utils.json_to_sheet(top);
 		var workbook = XLSX.utils.book_new();
-		XLSX.utils.book_append_sheet(workbook, worksheet, 'Survey Results');
+		XLSX.utils.book_append_sheet(workbook, worksheet, "Survey Results");
 		return workbook;
 	}
 	function getValue(Header) {
@@ -96,7 +96,7 @@
 
 	function ExcelExport(index) {
 		let x = index;
-		XLSX.writeFile(Qslot(index), '' + surveyList[x].surveyName + '.xlsx', {
+		XLSX.writeFile(Qslot(index), "" + surveyList[x].surveyName + ".xlsx", {
 			compression: true,
 		});
 	}
@@ -142,7 +142,7 @@
 </script>
 
 <h1>Analysis</h1>
-<head> </head>
+<head />
 
 <h1 class="header">Surveys ready to export</h1>
 
@@ -154,10 +154,11 @@
 			<span>Author: {survey.surveyAuthor}</span>
 			<span>Num Questions: {survey.numQuestions}</span>
 			<span>Creation Date: {survey.creationDate}</span>
-			<button on:click="{() => ExcelExport(index)}"
-				>Download as Excel</button>
-			<button class="btn-secondary" id="ExportPDF"
-				>Download as PDF</button>
+			<button on:click={() => ExcelExport(index)}
+				>Download as Excel</button
+			>
+			<button class="btn-secondary" id="ExportPDF">Download as PDF</button
+			>
 			<button class="btn-danger">Delete</button>
 		</div>
 	{:else}
