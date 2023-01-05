@@ -3,9 +3,12 @@
   export let data;
 </script>
 
-{#if data?.survey}
+{#if data?.survey?.isActive == true}
   <p>survey was found!</p>
   {JSON.stringify(data?.survey)}
 {:else}
-  <p>No survey data. fix me!</p>
+  <p>
+    The survey you are trying load is no longer available, for further
+    information, please contact your instructor.
+  </p>
 {/if}
