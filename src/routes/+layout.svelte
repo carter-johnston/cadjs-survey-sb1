@@ -1,11 +1,15 @@
-<nav class="nav nav-tabs justify-content-center">
-  <li class="nav-item">
-    <a class="nav-link" href="/active">Active Surveys</a>
-  </li>
-
-  <li class="nav-item">
-    <a class="nav-link" href="/analysis">Analysis</a>
-  </li>
+<nav class="navbar navbar-expand-lg nav-tabs bg-light ">
+	<a class="navbar-brand" href="/">
+		<img class="ms-4" src="y4c-logo.png" alt="Yoga 4 Change" width="100px" />
+	</a>
+	<ul class="navbar-nav">
+		<li>
+			<a class="nav-link" href="/active">Survey Management</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/analysis">Survey Analysis</a>
+		</li>
+	</ul>
 </nav>
 
 <slot />
@@ -16,15 +20,10 @@
     <p id="footer">Created by the CADJS team.</p>
 </footer> -->
 <style>
-  nav {
-    text-align: center;
-  }
-
-  /* #footer {
+	/* #footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    text-align: center;
-    height: 40px;
+    height: 100px;
   } */
 </style>
