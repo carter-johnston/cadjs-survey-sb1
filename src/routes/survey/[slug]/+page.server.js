@@ -19,6 +19,7 @@ export async function load({ params }) {
         _id: 0,
         surveyName: 1,
         questionBank: 1,
+        isActive: 1,
       },
     }
   );
