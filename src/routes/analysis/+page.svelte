@@ -1,9 +1,4 @@
 <script>
-	import { add_flush_callback, exclude_internal_props, prevent_default } from 'svelte/internal';
-	import { saveAs } from 'file-saver';
-	import * as XLSX from 'xlsx/xlsx.mjs';
-	import { add_flush_callback, exclude_internal_props, prevent_default } from 'svelte/internal';
-	import { saveAs } from 'file-saver';
 	import * as XLSX from 'xlsx/xlsx.mjs';
 
 	let surveyList = [
@@ -133,9 +128,6 @@
 	function getValue(Header) {
 		return Header.values;
 	}
-	function getValue(Header) {
-		return Header.values;
-	}
 
 	function excelExport(index) {
 		let x = index;
@@ -178,12 +170,11 @@
 	//             for(var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
 	//             return buf;
 	//         }
-	function excelExport(index) {
-		let x = index;
-		XLSX.writeFile(Qslot(index), '' + surveyList[x].surveyName + '.xlsx', {
-			compression: true,
-		});
-	}
+	// function excelExport(index) {
+	// 	let x = index;
+	// 	XLSX.writeFile(Qslot(index), '' + surveyList[x].surveyName + '.xlsx', {
+	// 		compression: true,
+	// 	});
 	// function returnSurvey(index){
 	//     for(var i = 0; i < surveyList.length; i++){
 	//         if(index === surveyList[i].id){
