@@ -7,13 +7,16 @@
 
 	import { writable } from 'svelte/store';
 
-	/** @type {import('./$types').ActionData} */
-	export let form; //TODO remove for Load Action
+	//TODO add in custom message/error to validation summary
+	//TODO maybe add validation first
+	let submitted = false;
 
 	const surveyForm = writable({
 		surveyName: '',
 		surveyDescription: '',
 		questionBank: [],
+		// numOfQuestions: $surveyForm.questionBank.length(),
+		//dont do that.
 	});
 
 	const componentOptions = {
@@ -26,15 +29,20 @@
 	let selected = 'likert';
 
 	async function handleSubmit(e) {
-		await fetch('', {
+		const ack = await fetch('', {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
 			},
 			body: JSON.stringify($surveyForm),
 		});
+
+		if (ack?.status == 200) {
+			submitted = true;
+		}
 	}
-	$: console.log({ $surveyForm });
+
+	$: console.log({ $surveyForm }); //TODO remove
 
 	function beforeUnload(event) {
 		event.preventDefault();
@@ -47,9 +55,9 @@
 	<div class="ms-5 me-5 mt-2">
 		<h1 class="mb-3">Create a Survey</h1>
 
-		{#if form?.success}
+		{#if submitted}
 			<div class="alert alert-success alert-dismissible fade show" role="alert">
-				{form?.message}
+				"Survey Submitted successfully"
 			</div>
 		{/if}
 
