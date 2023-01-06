@@ -5,10 +5,10 @@ import { surveys } from "$lib/collections/surveys";
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params }) {
-  //guard to see if params.slug is valid. we dont want to ping the database for blatantly wrong requests. (character length, valid digits, etc)
+  //TODO add more guards to see if params.slug is valid. we dont want to ping the database for blatantly wrong requests. (character length, valid digits, etc)
   const isSlugValid = params.slug != null;
   if (!isSlugValid) {
-    throw error(404, 'Slug provided is not valid'); //TODO change error msg to something more meaningful to the user.
+    throw error(404, 'Slug provided is invalid'); //TODO change error msg to something more meaningful to the user.
   }
 
   //get survey data from db.
@@ -26,11 +26,8 @@ export async function load({ params }) {
 
   //check if db gives a valid response.
   if (!data) {
-    //FIXME This wont work. whatever empty data looks like compare to that
     throw error(404, 'Survey was not found.');
   }
 
-  return {
-    survey: data,
-  };
+  return { survey: data };
 }
