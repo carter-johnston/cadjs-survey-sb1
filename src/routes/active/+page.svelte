@@ -8,6 +8,7 @@
 	const _url = $page.url;
 	const _origin = $page.url.origin;
 
+	//TODO maybe we can turn activation/deactivation into one function as just updating isActive
 	async function handleActivation(surveyIdentifier) {
 		if (!surveyIdentifier)
 			return console.error(`no arguments passed to method: handleActivation()`);
@@ -16,8 +17,7 @@
 		urlArgument.set('surveyIdentifier', surveyIdentifier);
 		const url = `${_url}/server/activate/?${urlArgument}`;
 
-		const res = await fetch(url);
-		const data = await res.json();
+		await fetch(url);
 
 		return reloadPage();
 	}
@@ -98,32 +98,37 @@
 	</div>
 	<div class="list-group">
 		{#each data?.activeSurveys as survey}
-			{#if survey?.isActive}
-				<div class="container border border-rounded m-2 p-2">
-					<div class="d-flex p-2">
-						<strong>
-							{survey.surveyName}
+			<div class="container border border-rounded m-2 p-2">
+				<div class="d-flex p-2">
+					<strong>
+						{survey.surveyName}
+						{#if survey?.isActive}
 							<span class="badge bg-success">active</span>
-						</strong>
+						{:else}
+							<span class="badge bg-secondary">disabled</span>
+						{/if}
+					</strong>
+				</div>
+				<div class="d-flex p-2">
+					<div class="flex-fill">
+						<strong>Number of Questions: </strong>
+						{survey.numOfQuestions ?? '...'}
 					</div>
-					<div class="d-flex p-2">
-						<div class="flex-fill">
-							<strong>Author:</strong>
-							{survey.surveyAuthor}
-						</div>
-
-						<div class="flex-fill">
-							<strong>Created:</strong>
-							{survey.creationDate}
-						</div>
+					<div class="flex-fill">
+						<strong>Created:</strong>
+						{survey.creationDate}
 					</div>
-					<div class="d-flex p-2">
-						<span>
-							<strong>Number of Questions: </strong>
-							{survey.numOfQuestions}
-						</span>
+					<div class="flex-fill">
+						<strong>Author:</strong>
+						{survey.surveyAuthor ?? '...'}
 					</div>
-
+				</div>
+				<div class="card m-2 w-75">
+					<div class="card-body">
+						{survey.surveyDescription}
+					</div>
+				</div>
+				{#if survey?.isActive}
 					<div class="d-flex p-2">
 						<button class="btn btn-warning me-2" on:click="{handleDeactivation(survey.id)}"
 							>Deactivate</button>
@@ -131,40 +136,15 @@
 							>Copy Link to Clipboard</button>
 						<button class="btn btn-secondary me-2">Preview</button>
 					</div>
-				</div>
-			{:else}
-				<div class="container border border-rounded m-2 p-2">
-					<div class="d-flex p-2">
-						<strong>
-							{survey.surveyName}
-							<span class="badge bg-secondary">disabled</span>
-						</strong>
-					</div>
-					<div class="d-flex p-2">
-						<div class="flex-fill">
-							<strong>Author:</strong>
-							{survey.surveyAuthor}
-						</div>
-
-						<div class="flex-fill">
-							<strong>Created:</strong>
-							{survey.creationDate}
-						</div>
-					</div>
-					<div class="d-flex p-2">
-						<span>
-							<strong>Number of Questions: </strong>
-							{survey.numOfQuestions}
-						</span>
-					</div>
+				{:else}
 					<div class="d-flex p-2">
 						<button class="btn btn-success me-2" on:click="{handleActivation(survey.id)}"
 							>Activate</button>
 						<button class="btn btn-secondary me-2">Edit</button>
 						<button class="btn btn-danger me-2" on:click="{deleteSurvey(survey.id)}">Delete</button>
 					</div>
-				</div>
-			{/if}
+				{/if}
+			</div>
 		{:else}
 			<p>There are no existing surveys.</p>
 		{/each}

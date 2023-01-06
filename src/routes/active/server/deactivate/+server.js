@@ -21,16 +21,11 @@ export async function GET({ url }) {
     const ack = await surveys.updateOne(
         { _id: ObjectID(surveyIdentifier) },
         {
-            $set:
-            {
-                "isActive": false
-            }
+            $set: { "isActive": false }
         },
     );
 
     console.log(ack);
 
-    return json({
-        ack
-    });
+    return json({ ack });
 }

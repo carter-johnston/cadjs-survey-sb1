@@ -11,6 +11,7 @@ export async function load() {
 					surveyName: 1,
 					surveyAuthor: 1,
 					numOfQuestions: 1,
+					surveyDescription: 1,
 					creationDate: 1,
 					isActive: 1,
 				},

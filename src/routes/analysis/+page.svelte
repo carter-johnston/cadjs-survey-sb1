@@ -24,7 +24,7 @@
 						<th scope="row">{index + 1}</th>
 						<td>
 							<span class="d-inline-block text-truncate" style="max-width: 240px;">
-								{survey.surveyName ?? '-'}
+								{survey.surveyName}
 							</span>
 						</td>
 						<td>
