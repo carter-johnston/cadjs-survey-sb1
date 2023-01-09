@@ -76,6 +76,30 @@
 		location.reload();
 	}
 
+	/*Pagination Functionality Start*/
+	let pageIndex = 0;
+	let pageLength = 3; //TODO Change how many items for each page.
+
+	const fullSurveyList = data?.activeSurveys;
+	const pageTotal = Math.floor(fullSurveyList.length / pageLength);
+
+	function previousPage() {
+		if (pageIndex > 0) {
+			pageIndex--;
+		}
+	}
+
+	function nextPage() {
+		if (pageIndex < pageTotal) {
+			pageIndex++;
+		}
+	}
+
+	$: pagingStart = pageIndex * pageLength;
+	$: pagedSurveyList = fullSurveyList.slice(pagingStart, pagingStart + pageLength);
+	/*Pagination Functionality End*/
+
+	//TODO replace or remove when we implement previewer
 	function createPDF(survey) {
 		let doc = new jsPDF();
 		let text = `Survey Name: ${survey.surveyName}\nSurvey Author: ${survey.surveyAuthor}\nNum Questions: ${survey.numQuestions}\nCreation Date: ${survey.creationDate}\n`;
@@ -93,12 +117,18 @@
 	</div>
 	<div class="d-flex">
 		<a href="/create"><button class="btn btn-secondary ms-3 me-2">+ Create a survey</button></a>
-		<button class="btn btn-light me-1"><strong>&laquo;</strong></button>
-		<button class="btn btn-light me-2"><strong>&raquo;</strong></button>
+
+		<!-- Previous Page -->
+		<button class="btn btn-light me-1 border border-secondary" on:click="{previousPage}"
+			><strong>&laquo;</strong></button>
+		<span class="m-2">{pageIndex} of {pageTotal}</span>
+		<!-- Next Page -->
+		<button class="btn btn-light me-2 border border-secondary" on:click="{nextPage}"
+			><strong>&raquo;</strong></button>
 	</div>
 	<div class="list-group">
-		{#each data?.activeSurveys as survey}
-			<div class="container border border-rounded m-2 p-2">
+		{#each pagedSurveyList as survey}
+			<div class="container border border-rounded shadow m-2 p-2">
 				<div class="d-flex p-2">
 					<strong>
 						{survey.surveyName}

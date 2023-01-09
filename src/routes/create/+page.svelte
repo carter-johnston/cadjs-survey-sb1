@@ -75,7 +75,7 @@
 
 		<div class="list-group">
 			{#each $surveyForm.questionBank as question, index}
-				<div class="list-group-item list-group-item-action">
+				<div class="list-group-item list-group-item-action shadow mb-1">
 					<svelte:component
 						this="{componentOptions[question.type]}"
 						bind:questionData="{question.data}"
@@ -87,28 +87,29 @@
 				</div>
 			{/each}
 		</div>
+		<div class="d-flex mt-3">
+			<!-- On click will push selected component from dropdown to the list of questions -->
+			<button
+				type="button"
+				class="btn btn-outline-secondary"
+				on:click="{() => {
+					$surveyForm.questionBank = [
+						...$surveyForm.questionBank,
+						{
+							type: selected,
+							data: undefined, //TODO default data models if any issues arise.
+						},
+					];
+				}}"
+				>Add Question
+			</button>
 
-		<!-- On click will push selected component from dropdown to the list of questions -->
-		<button
-			type="button"
-			class="btn btn-outline-secondary"
-			on:click="{() => {
-				$surveyForm.questionBank = [
-					...$surveyForm.questionBank,
-					{
-						type: selected,
-						data: undefined, //TODO default data models if any issues arise.
-					},
-				];
-			}}"
-			>Add Question
-		</button>
-
-		<select class="btn btn-secondary" bind:value="{selected}">
-			{#each Object.keys(componentOptions) as componentKey}
-				<option value="{componentKey}">{componentKey}</option>
-			{/each}
-		</select>
+			<select class="btn btn-secondary" bind:value="{selected}">
+				{#each Object.keys(componentOptions) as componentKey}
+					<option value="{componentKey}">{componentKey}</option>
+				{/each}
+			</select>
+		</div>
 
 		<hr />
 

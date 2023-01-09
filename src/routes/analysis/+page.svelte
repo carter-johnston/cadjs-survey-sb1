@@ -1,6 +1,27 @@
 <script>
 	/** @type {import('./$types').PageData} */
 	export let data;
+
+	let pageIndex = 0;
+	let pageLength = 3; //TODO Change how many items for each page.
+
+	const fullSurveyList = data?.activeSurveys;
+	const pageTotal = Math.floor(fullSurveyList.length / pageLength);
+
+	function previousPage() {
+		if (pageIndex > 0) {
+			pageIndex--;
+		}
+	}
+
+	function nextPage() {
+		if (pageIndex < pageTotal) {
+			pageIndex++;
+		}
+	}
+
+	$: pagingStart = pageIndex * pageLength;
+	$: pagedSurveyList = fullSurveyList.slice(pagingStart, pagingStart + pageLength);
 </script>
 
 <div class="ms-5 me-5 mt-2">
@@ -19,9 +40,9 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each data?.activeSurveys as survey, index}
+				{#each pagedSurveyList as survey, index}
 					<tr>
-						<th scope="row">{index + 1}</th>
+						<th scope="row">{pagingStart + index + 1}</th>
 						<td>
 							<span class="d-inline-block text-truncate" style="max-width: 240px;">
 								{survey.surveyName}
@@ -43,8 +64,13 @@
 				<tr>
 					<td>
 						<div class="d-flex">
-							<button class="btn btn-light me-1"><strong>&laquo;</strong></button>
-							<button class="btn btn-light me-2"><strong>&raquo;</strong></button>
+							<!-- page left -->
+							<button class="btn btn-light me-1 border border-secondary" on:click="{previousPage}"
+								><strong>&laquo;</strong></button>
+							<span class="m-2">{pageIndex} of {pageTotal}</span>
+							<!-- page right -->
+							<button class="btn btn-light me-2 border border-secondary" on:click="{nextPage}"
+								><strong>&raquo;</strong></button>
 						</div>
 					</td>
 					<th></th>
