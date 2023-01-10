@@ -78,10 +78,10 @@
 
 	/*Pagination Functionality Start*/
 	let pageIndex = 0;
-	let pageLength = 3; //TODO Change how many items for each page.
+	let pageLength = 5; //TODO Change how many items for each page.
 
 	const fullSurveyList = data?.activeSurveys;
-	const pageTotal = Math.floor(fullSurveyList.length / pageLength);
+	const pageTotal = Math.ceil(fullSurveyList.length / pageLength);
 
 	function previousPage() {
 		if (pageIndex > 0) {
@@ -90,7 +90,7 @@
 	}
 
 	function nextPage() {
-		if (pageIndex < pageTotal) {
+		if (pageIndex < pageTotal - 1) {
 			pageIndex++;
 		}
 	}
@@ -121,7 +121,7 @@
 		<!-- Previous Page -->
 		<button class="btn btn-light me-1 border border-secondary" on:click="{previousPage}"
 			><strong>&laquo;</strong></button>
-		<span class="m-2">{pageIndex} of {pageTotal}</span>
+		<span class="m-2">page {pageIndex + 1} of {pageTotal}</span>
 		<!-- Next Page -->
 		<button class="btn btn-light me-2 border border-secondary" on:click="{nextPage}"
 			><strong>&raquo;</strong></button>
