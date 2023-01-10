@@ -1,6 +1,6 @@
 <script>
-	import { jsPDF } from 'jspdf';
-	import { page } from '$app/stores';
+	import { jsPDF } from "jspdf";
+	import { page } from "$app/stores";
 
 	/** @type {import('./$types').PageData} */
 	export let data;
@@ -11,10 +11,12 @@
 	//TODO maybe we can turn activation/deactivation into one function as just updating isActive
 	async function handleActivation(surveyIdentifier) {
 		if (!surveyIdentifier)
-			return console.error(`no arguments passed to method: handleActivation()`);
+			return console.error(
+				`no arguments passed to method: handleActivation()`
+			);
 
 		const urlArgument = new URLSearchParams();
-		urlArgument.set('surveyIdentifier', surveyIdentifier);
+		urlArgument.set("surveyIdentifier", surveyIdentifier);
 		const url = `${_url}/server/activate/?${urlArgument}`;
 
 		await fetch(url);
@@ -24,10 +26,12 @@
 
 	async function handleDeactivation(surveyIdentifier) {
 		if (!surveyIdentifier)
-			return console.error(`no arguments passed to method: handleDeactivation()`);
+			return console.error(
+				`no arguments passed to method: handleDeactivation()`
+			);
 
 		const urlArgument = new URLSearchParams();
-		urlArgument.set('surveyIdentifier', surveyIdentifier);
+		urlArgument.set("surveyIdentifier", surveyIdentifier);
 		const url = `${_url}/server/deactivate/?${urlArgument}`;
 
 		await fetch(url);
@@ -37,10 +41,12 @@
 
 	async function copySurveyPathToClipboard(surveyIdentifier) {
 		if (!surveyIdentifier)
-			return console.error(`no arguments passed to method: copySurveyPathToClipboard()`);
+			return console.error(
+				`no arguments passed to method: copySurveyPathToClipboard()`
+			);
 
 		const urlArgument = new URLSearchParams();
-		urlArgument.set('surveyIdentifier', surveyIdentifier);
+		urlArgument.set("surveyIdentifier", surveyIdentifier);
 		const url = `${_url}/server/getLink/?${urlArgument}`;
 
 		const res = await fetch(url);
@@ -55,18 +61,18 @@
 				alert(`${text} copied to clipboard`); //TODO replace with a tooltip or toast.
 			})
 			.catch((err) => {
-				alert('Error in copying text: ', err);
+				alert("Error in copying text: ", err);
 			});
 	}
 
 	async function deleteSurvey(surveyID) {
 		const urlArgument = new URLSearchParams();
-		urlArgument.set('surveyID', surveyID);
+		urlArgument.set("surveyID", surveyID);
 		const url = `${_url}/?${urlArgument}`;
 
 		await fetch(url, {
-			method: 'DELETE',
-			headers: { 'Content-Type': 'application/json' },
+			method: "DELETE",
+			headers: { "Content-Type": "application/json" },
 		});
 
 		return reloadPage();
@@ -96,7 +102,10 @@
 	}
 
 	$: pagingStart = pageIndex * pageLength;
-	$: pagedSurveyList = fullSurveyList.slice(pagingStart, pagingStart + pageLength);
+	$: pagedSurveyList = fullSurveyList.slice(
+		pagingStart,
+		pagingStart + pageLength
+	);
 	/*Pagination Functionality End*/
 
 	//TODO replace or remove when we implement previewer
@@ -111,20 +120,28 @@
 <div class="ms-5 me-5 mt-2">
 	<h1 class="mb-3">Survey Management</h1>
 	<div class="lead ms-3 mb-3">
-		Here is a list of existing surveys. Select the <i>Activate</i> button on the survey that you wish
-		to share. Once activated, that survey will only be available until the set expiration date or until
-		you close it.
+		Here is a list of existing surveys. Select the <i>Activate</i> button on
+		the survey that you wish to share. Once activated, that survey will only
+		be available until the set expiration date or until you close it.
 	</div>
 	<div class="d-flex">
-		<a href="/create"><button class="btn btn-secondary ms-3 me-2">+ Create a survey</button></a>
+		<a href="/create"
+			><button class="btn btn-secondary ms-3 me-2"
+				>+ Create a survey</button
+			></a
+		>
 
 		<!-- Previous Page -->
-		<button class="btn btn-light me-1 border border-secondary" on:click="{previousPage}"
-			><strong>&laquo;</strong></button>
-		<span class="m-2">{pageIndex} of {pageTotal}</span>
+		<button
+			class="btn btn-light me-1 border border-secondary"
+			on:click={previousPage}><strong>&laquo;</strong></button
+		>
+		<span class="m-2">{pageIndex + 1} of {pageTotal + 1}</span>
 		<!-- Next Page -->
-		<button class="btn btn-light me-2 border border-secondary" on:click="{nextPage}"
-			><strong>&raquo;</strong></button>
+		<button
+			class="btn btn-light me-2 border border-secondary"
+			on:click={nextPage}><strong>&raquo;</strong></button
+		>
 	</div>
 	<div class="list-group">
 		{#each pagedSurveyList as survey}
@@ -142,7 +159,7 @@
 				<div class="d-flex p-2">
 					<div class="flex-fill">
 						<strong>Number of Questions: </strong>
-						{survey.numOfQuestions ?? '...'}
+						{survey.numOfQuestions ?? "..."}
 					</div>
 					<div class="flex-fill">
 						<strong>Created:</strong>
@@ -150,7 +167,7 @@
 					</div>
 					<div class="flex-fill">
 						<strong>Author:</strong>
-						{survey.surveyAuthor ?? '...'}
+						{survey.surveyAuthor ?? "..."}
 					</div>
 				</div>
 				<div class="card m-2 w-75">
@@ -160,18 +177,30 @@
 				</div>
 				{#if survey?.isActive}
 					<div class="d-flex p-2">
-						<button class="btn btn-warning me-2" on:click="{handleDeactivation(survey.id)}"
-							>Deactivate</button>
-						<button class="btn btn-secondary me-2" on:click="{copySurveyPathToClipboard(survey.id)}"
-							>Copy Link to Clipboard</button>
+						<button
+							class="btn btn-warning me-2"
+							on:click={handleDeactivation(survey.id)}
+							>Deactivate</button
+						>
+						<button
+							class="btn btn-secondary me-2"
+							on:click={copySurveyPathToClipboard(survey.id)}
+							>Copy Link to Clipboard</button
+						>
 						<button class="btn btn-secondary me-2">Preview</button>
 					</div>
 				{:else}
 					<div class="d-flex p-2">
-						<button class="btn btn-success me-2" on:click="{handleActivation(survey.id)}"
-							>Activate</button>
+						<button
+							class="btn btn-success me-2"
+							on:click={handleActivation(survey.id)}
+							>Activate</button
+						>
 						<button class="btn btn-secondary me-2">Edit</button>
-						<button class="btn btn-danger me-2" on:click="{deleteSurvey(survey.id)}">Delete</button>
+						<button
+							class="btn btn-danger me-2"
+							on:click={deleteSurvey(survey.id)}>Delete</button
+						>
 					</div>
 				{/if}
 			</div>
