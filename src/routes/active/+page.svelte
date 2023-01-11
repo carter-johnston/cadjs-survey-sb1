@@ -78,7 +78,7 @@
 
 	/*Pagination Functionality Start*/
 	let pageIndex = 0;
-	let pageLength = 5; //TODO Change how many items for each page.
+	let pageLength = 3; //TODO Change how many items for each page.
 
 	const fullSurveyList = data?.activeSurveys;
 	const pageTotal = Math.ceil(fullSurveyList.length / pageLength);

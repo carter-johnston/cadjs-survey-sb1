@@ -16,7 +16,7 @@ export async function load({ params }) {
     { webLink: params.slug },
     {
       projection: {
-        _id: 0,
+        _id: 1,
         surveyName: 1,
         questionBank: 1,
         isActive: 1,
@@ -28,6 +28,9 @@ export async function load({ params }) {
   if (!data) {
     throw error(404, 'Survey was not found.');
   }
+  
+  const {_id , ...surveyData} = data;
+  const id = _id.toString();
 
-  return { survey: data };
+  return { id, ...surveyData };
 }
