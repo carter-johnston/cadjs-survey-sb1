@@ -20,17 +20,3 @@
 </nav>
 
 <slot />
-
-<!-- FIXME style footer properly. -->
-
-<!-- <footer>
-    <p id="footer">Created by the CADJS team.</p>
-</footer> -->
-<style>
-	/* #footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 100px;
-  } */
-</style>
