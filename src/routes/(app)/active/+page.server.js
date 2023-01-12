@@ -14,6 +14,7 @@ export async function load() {
 					surveyDescription: 1,
 					creationDate: 1,
 					isActive: 1,
+					webLink: 1,
 				},
 			}
 		)
