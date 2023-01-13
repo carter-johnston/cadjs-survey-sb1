@@ -1,6 +1,7 @@
 <script>
 	import { jsPDF } from 'jspdf';
 	import { page } from '$app/stores';
+	import { DateTime } from 'luxon';
 
 	/** @type {import('./$types').PageData} */
 	export let data;
@@ -130,23 +131,19 @@
 	}
 </script>
 
-<div class="ms-5 me-5 mt-2">
-	<h1 class="mb-3">Survey Management</h1>
-	<div class="lead ms-3 mb-3">
+<div class="container m-2 p-2">
+	<h1>Survey Management</h1>
+	<div class="lead">
 		Here is a list of existing surveys. Select the <i>Activate</i> button on the survey that you wish
 		to share. Once activated, that survey will only be available until the set expiration date or until
 		you close it.
 	</div>
+</div>
+<div class="container border border-rounded shadow m-2 p-2">
 	<div class="d-flex">
-		<a href="/create"><button class="btn btn-secondary ms-3 me-2">+ Create a survey</button></a>
+		<a href="/create" class="btn btn-secondary me-2">+ Create a new survey</a>
 
 		<!-- Previous Page -->
-		<button class="btn btn-light me-1 border border-secondary" on:click="{previousPage}"
-			><strong>&laquo;</strong></button>
-		<span class="m-2">page {pageIndex + 1} of {pageTotal}</span>
-		<!-- Next Page -->
-		<button class="btn btn-light me-2 border border-secondary" on:click="{nextPage}"
-			><strong>&raquo;</strong></button>
 		{#if sortByActiveOn == true}
 			<button class="btn btn-secondary me-2" on:click="{() => (sortByActiveOn = false)}"
 				>Sort by Disabled</button>
@@ -162,59 +159,89 @@
 				>Enable Sort by Newest</button>
 		{/if}
 		<button class="btn btn-secondary me-2" on:click="{sortSurveys}">Sort</button>
-	</div>
-	<div class="list-group">
-		{#each pagedSurveyList as survey}
-			<div class="container border border-rounded shadow m-2 p-2">
-				<div class="d-flex p-2">
-					<strong>
-						{survey.surveyName}
-						{#if survey?.isActive}
-							<span class="badge bg-success">active</span>
-						{:else}
-							<span class="badge bg-secondary">disabled</span>
-						{/if}
-					</strong>
-				</div>
-				<div class="d-flex p-2">
-					<div class="flex-fill">
-						<strong>Number of Questions: </strong>
-						{survey.numOfQuestions ?? '...'}
-					</div>
-					<div class="flex-fill">
-						<strong>Created:</strong>
-						{survey.creationDate}
-					</div>
-					<div class="flex-fill">
-						<strong>Author:</strong>
-						{survey.surveyAuthor ?? '...'}
-					</div>
-				</div>
-				<div class="card m-2 w-75">
-					<div class="card-body">
-						{survey.surveyDescription}
-					</div>
-				</div>
-				{#if survey?.isActive}
-					<div class="d-flex p-2">
-						<button class="btn btn-warning me-2" on:click="{handleDeactivation(survey.id)}"
-							>Deactivate</button>
-						<button class="btn btn-secondary me-2" on:click="{copySurveyPathToClipboard(survey.id)}"
-							>Copy Link to Clipboard</button>
-						<a class="btn btn-secondary" href="{_origin}/survey/preview/{survey.webLink}"
-							>Preview</a>
-					</div>
-				{:else}
-					<div class="d-flex p-2">
-						<button class="btn btn-success me-2" on:click="{handleActivation(survey.id)}"
-							>Activate</button>
-						<button class="btn btn-secondary me-2">Edit</button>
-						<button class="btn btn-danger me-2" on:click="{deleteSurvey(survey.id)}">Delete</button>
-					</div>
-				{/if}
-			</div>
-		{:else}
-			<p>There are no existing surveys.</p>
-		{/each}
+
+		<div class="ms-auto">
+			<button class="btn btn-light me-1 border border-secondary" on:click="{previousPage}"
+				><strong>&laquo;</strong></button>
+			<span class="m-2">page {pageIndex + 1} of {pageTotal}</span>
+			<!-- Next Page -->
+			<button class="btn btn-light me-2 border border-secondary" on:click="{nextPage}"
+				><strong>&raquo;</strong></button>
+		</div>
 	</div>
 </div>
+{#each pagedSurveyList as survey}
+	<div class="container container-fluid border border-rounded shadow m-2 p-2">
+		<div class="d-flex p-2">
+			<strong>
+				{survey.surveyName}
+				{#if survey?.isActive}
+					<span class="badge bg-success">active</span>
+				{:else}
+					<span class="badge bg-secondary">disabled</span>
+				{/if}
+			</strong>
+		</div>
+		<div class="d-flex p-2">
+			<div class="flex-fill">
+				<strong>No. of Questions: </strong>
+				{survey.numOfQuestions ?? '...'}
+			</div>
+			<div class="flex-fill">
+				<strong>Created:</strong>
+				{DateTime.fromISO(survey.creationDate).toFormat('ff')}
+			</div>
+			<div class="flex-fill">
+				<strong>Author:</strong>
+				{survey.surveyAuthor ?? '...'}
+			</div>
+		</div>
+		<div class="card m-2 w-75">
+			<div class="card-body">
+				{survey.surveyDescription}
+			</div>
+		</div>
+		{#if survey?.isActive}
+			<div class="d-flex p-2">
+				<button class="btn btn-warning me-2" on:click="{handleDeactivation(survey.id)}"
+					>Deactivate</button>
+				<button class="btn btn-secondary me-2" on:click="{copySurveyPathToClipboard(survey.id)}"
+					>Copy Link to Clipboard</button>
+				<a class="btn btn-secondary" href="{_origin}/survey/preview/{survey.webLink}">Preview</a>
+			</div>
+		{:else}
+			<div class="d-flex p-2">
+				<button class="btn btn-success me-2" on:click="{handleActivation(survey.id)}"
+					>Activate</button>
+				<button class="btn btn-secondary me-2">Edit</button>
+				<button class="btn btn-danger me-2" on:click="{deleteSurvey(survey.id)}">Delete</button>
+			</div>
+		{/if}
+	</div>
+{:else}
+	<p>There are no existing surveys.</p>
+{/each}
+{#if pagedSurveyList.length != 0}
+	<div class="container container-fluid border border-rounded shadow m-2 p-2">
+		<div class="d-flex">
+			<div class="ms-auto">
+				<!-- Previous Page -->
+				<button class="btn btn-light me-1 border border-secondary" on:click="{previousPage}"
+					><strong>&laquo;</strong></button>
+				<span class="m-2">page {pageIndex + 1} of {pageTotal}</span>
+				<!-- Next Page -->
+				<button class="btn btn-light me-2 border border-secondary" on:click="{nextPage}"
+					><strong>&raquo;</strong></button>
+			</div>
+		</div>
+	</div>
+{/if}
+
+<!-- <style>
+	.container {
+		background-color: #ffffff;
+	}
+	.background-wrapper {
+		background-image: #bebebe;
+	}
+</style> -->

@@ -15,8 +15,7 @@
 		surveyName: '',
 		surveyDescription: '',
 		questionBank: [],
-		// numOfQuestions: $surveyForm.questionBank.length(),
-		//dont do that.
+		numOfQuestions: 0,
 	});
 
 	const componentOptions = {
@@ -29,6 +28,10 @@
 	let selected = 'likert';
 
 	async function handleSubmit(e) {
+		if (submitted) {
+			return;
+		}
+
 		const ack = await fetch('', {
 			method: 'POST',
 			headers: {
@@ -41,7 +44,7 @@
 			submitted = true;
 		}
 	}
-
+	$: $surveyForm.numOfQuestions = $surveyForm.questionBank.length;
 	$: console.log({ $surveyForm }); //TODO remove
 
 	function beforeUnload(event) {

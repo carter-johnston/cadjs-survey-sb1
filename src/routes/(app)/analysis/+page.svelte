@@ -21,10 +21,7 @@
 	}
 
 	$: pagingStart = pageIndex * pageLength;
-	$: pagedSurveyList = fullSurveyList.slice(
-		pagingStart,
-		pagingStart + pageLength
-	);
+	$: pagedSurveyList = fullSurveyList.slice(pagingStart, pagingStart + pageLength);
 </script>
 
 <div class="ms-5 me-5 mt-2">
@@ -47,23 +44,17 @@
 					<tr>
 						<th scope="row">{pagingStart + index + 1}</th>
 						<td>
-							<span
-								class="d-inline-block text-truncate"
-								style="max-width: 240px;"
-							>
+							<span class="d-inline-block text-truncate" style="max-width: 240px;">
 								{survey.surveyName}
 							</span>
 						</td>
 						<td>
-							<span
-								class="d-inline-block text-truncate"
-								style="max-width: 200px;"
-							>
-								{survey.surveyAuthor ?? "-"}
+							<span class="d-inline-block text-truncate" style="max-width: 200px;">
+								{survey.surveyAuthor ?? '-'}
 							</span>
 						</td>
-						<td>{survey.creationDate ?? "-"}</td>
-						<td>{survey.numQuestions ?? "-"}</td>
+						<td>{survey.creationDate ?? '-'}</td>
+						<td>{survey.numQuestions ?? '-'}</td>
 						<td><input type="checkbox" /></td>
 						<td><input type="checkbox" /></td>
 					</tr>
@@ -74,35 +65,20 @@
 					<td>
 						<div class="d-flex">
 							<!-- page left -->
-							<button
-								class="btn btn-light me-1 border border-secondary"
-								on:click={previousPage}
-								><strong>&laquo;</strong></button
-							>
-							<span class="m-2"
-								>{pageIndex + 1} of {pageTotal + 1}</span
-							>
+							<button class="btn btn-light me-1 border border-secondary" on:click="{previousPage}"
+								><strong>&laquo;</strong></button>
+							<span class="m-2">{pageIndex + 1} of {pageTotal + 1}</span>
 							<!-- page right -->
-							<button
-								class="btn btn-light me-2 border border-secondary"
-								on:click={nextPage}
-								><strong>&raquo;</strong></button
-							>
+							<button class="btn btn-light me-2 border border-secondary" on:click="{nextPage}"
+								><strong>&raquo;</strong></button>
 						</div>
 					</td>
-					<th />
-					<td />
-					<td />
-					<td />
-					<td
-						><button class="btn btn-secondary"
-							>Download Excel</button
-						></td
-					>
-					<td
-						><button class="btn btn-secondary">Download PDF</button
-						></td
-					>
+					<th></th>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td><button class="btn btn-secondary">Download Excel</button></td>
+					<td><button class="btn btn-secondary">Download PDF</button></td>
 				</tr>
 			</tbody>
 		</table>

@@ -9,7 +9,7 @@ export async function POST({ request }) {
   console.log(data);
   const ack = await surveys.insertOne({
     ...data,
-    creationDate: DateTime.now(),
+    creationDate: DateTime.now().toString(),
   });
 
   return json(ack);
